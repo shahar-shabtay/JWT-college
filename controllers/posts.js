@@ -30,6 +30,7 @@ const getAllPosts = async (req, res) => {
   }
 };
 
+// Get post by ID
 const getPostById = async (req, res) => {
     const postId = req.params.id;
   
