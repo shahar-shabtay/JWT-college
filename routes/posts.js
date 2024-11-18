@@ -7,6 +7,8 @@ router.get('/', postController.getAllPosts);
 
 // Get a post by id
 router.get("/:id", postController.getPostById);
+// Get Posts by Sender
+router.get('/posts', postController.getPostsBySender);
 
 // Update post data by id
 router.put('/:id', postController.updatePost);

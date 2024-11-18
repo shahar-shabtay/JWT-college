@@ -11,10 +11,8 @@ Content-Type: application/json
 ### Get all posts
 GET http://localhost:3000/posts
 
-
-#### Get post by ID
+### Get post by ID
 GET http://localhost:3000/posts/673b7041241ed1b7a603a64b
-
 
 ### Update post data
 PUT http://localhost:3000/posts/673b7041241ed1b7a603a64b
@@ -24,3 +22,6 @@ Content-Type: application/json
     "title": "My LASTTTTTTTTT Post",
     "sender": "64fe4c2ae7891b6cf7890def"
 }
+
+### Get Posts by Sender
+GET http://localhost:3000/posts?sender=64fe4c2ae7891b6cf7890def
