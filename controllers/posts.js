@@ -1,14 +1,9 @@
 const Post = require('../models/posts');
 
 // Add a New Post
-exports.addPost = async (req, res) => {
+const addPost = async (req, res) => {
     try {
         const { title, content, sender } = req.body;
-
-        // // Validate required fields
-        // if (!title || !content || !sender) {
-        //     return res.status(400).json({ message: 'Title, content, and sender are required.' });
-        // }
 
         // Create and save the post
         const post = new Post({ title, content, sender });
@@ -19,3 +14,23 @@ exports.addPost = async (req, res) => {
         res.status(500).json({ error: error.message }); // Handle server errors
     }
 };
+
+const getPostById = async (req, res) => {
+    const postId = req.params.id;
+  
+    try {
+      const post = await Post.findById(postId);
+      if (post) {
+        res.send(post);
+      } else {
+        res.status(404).send("Post not found");
+      }
+    } catch (error) {
+      res.status(400).send(error.message);
+    }
+  };
+
+  module.exports = {
+    addPost,
+    getPostById
+  };
