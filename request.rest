@@ -1,3 +1,4 @@
+### Create new post
 POST http://localhost:3000/posts
 Content-Type: application/json
 
@@ -6,3 +7,6 @@ Content-Type: application/json
     "content": "This is the content of my first post.",
     "sender": "64fe4c2ae7891b6cf7890def"
 }
+
+#### Get post by id
+GET http://localhost:3000/posts/673b7041241ed1b7a603a64b
