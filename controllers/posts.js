@@ -30,6 +30,7 @@ const getAllPosts = async (req, res) => {
   }
 };
 
+
 // Get post by ID
 const getPostById = async (req, res) => {
     const postId = req.params.id;
@@ -44,6 +45,7 @@ const getPostById = async (req, res) => {
       res.status(400).send(error.message);
     }
   };
+
 
 const getPostsBySender = async (req, res) => {
     try {
@@ -70,9 +72,30 @@ const getPostsBySender = async (req, res) => {
 };
 
 
+// Update post data
+const updatePost = async (req, res) => {
+  const postId = req.params.id;
+  const postData = req.body;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: 'post not found' });
+    }
+    
+    Object.assign(post, postData);
+    
+    await post.save();
+    return res.status(200).json(post);
+  } catch (error) {
+    return res.status(500).json({ error: 'Error updating post: ' + error.message });
+  }
+};
+
 module.exports = {
-    addPost,
-    getAllPosts,
-    getPostById,
-    getPostsBySender
-}
+  addPost,
+  getAllPosts,
+  getPostById,
+  updatePost,
+  getPostsBySender
+};
