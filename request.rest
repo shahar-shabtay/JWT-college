@@ -1,0 +1,8 @@
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+    "title": "My First Post",
+    "content": "This is the content of my first post.",
+    "sender": "64fe4c2ae7891b6cf7890def"
+}
