@@ -8,7 +8,11 @@ Content-Type: application/json
     "sender": "64fe4c2ae7891b6cf7890def"
 }
 
-#### Get post by id
+### Get all posts
+GET http://localhost:3000/posts
+
+
+#### Get post by ID
 GET http://localhost:3000/posts/673b7041241ed1b7a603a64b
 
 
