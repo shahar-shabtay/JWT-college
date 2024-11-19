@@ -43,9 +43,13 @@ GET http://localhost:3000/comments
 GET http://localhost:3000/comments/673c599ebc0e9c6c8a344a9f
 
 ### Update post data
-PUT http://localhost:3000/comments/673c599ebc0e9c6c8a344a9f
+PUT http://localhost:3000/comments/673cec16b1d2be3e40539c21
 Content-Type: application/json
 
 {
     "postID": "123"
 }
+
+### Delete a Comment by ID
+DELETE http://localhost:3000/comments/673cec16b1d2be3e40539c21
+Content-Type: application/json
