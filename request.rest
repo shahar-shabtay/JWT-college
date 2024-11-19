@@ -25,3 +25,27 @@ Content-Type: application/json
 
 ### Get Posts by Sender
 GET http://localhost:3000/posts?sender=64fe4c2ae7891b6cf7890def
+
+### Create new comment
+POST http://localhost:3000/comments
+Content-Type: application/json
+
+{
+    "commenter": "Yuval",
+    "postID": "673b7041241ed1b7a603a64b",
+    "content": "This is the best post ever!"
+}
+
+### Get all comments
+GET http://localhost:3000/comments
+
+### Get comment by ID
+GET http://localhost:3000/comments/673c599ebc0e9c6c8a344a9f
+
+### Update post data
+PUT http://localhost:3000/comments/673c599ebc0e9c6c8a344a9f
+Content-Type: application/json
+
+{
+    "postID": "123"
+}
