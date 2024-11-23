@@ -14,5 +14,7 @@ router.get("/:id", commentController.getcommentById);
 // Update comment data by id
 router.put('/:id', commentController.updatecomment);
 
+// Delete Comment by ID
+router.delete("/:id", commentController.deleteCommentByID);
 
 module.exports = router;
