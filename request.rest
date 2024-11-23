@@ -12,10 +12,10 @@ Content-Type: application/json
 GET http://localhost:3000/posts
 
 ### Get post by ID
-GET http://localhost:3000/posts/673b7041241ed1b7a603a64b
+GET http://localhost:3000/posts/673b6f5c8aef12de14358c8c
 
 ### Update post data
-PUT http://localhost:3000/posts/673b7041241ed1b7a603a64b
+PUT http://localhost:3000/posts/673b6f5c8aef12de14358c8c
 Content-Type: application/json
 
 {
@@ -40,16 +40,16 @@ Content-Type: application/json
 GET http://localhost:3000/comments
 
 ### Get comment by ID
-GET http://localhost:3000/comments/673c599ebc0e9c6c8a344a9f
+GET http://localhost:3000/comments/67418b745775497cb9ec313b
 
-### Update post data
-PUT http://localhost:3000/comments/673cec16b1d2be3e40539c21
+### Update comment data
+PUT http://localhost:3000/comments/67418b745775497cb9ec313b
 Content-Type: application/json
 
 {
-    "postID": "123"
+    "postID": "12345"
 }
 
 ### Delete a Comment by ID
-DELETE http://localhost:3000/comments/673cec16b1d2be3e40539c21
+DELETE http://localhost:3000/comments/67418c6e500c93081168e5eb
 Content-Type: application/json
