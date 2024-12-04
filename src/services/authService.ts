@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/users';
-import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../utils/jwtUtils';
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../../utils/jwtUtils';
 
 export async function register(data: { email: string; password: string; username: string }) {
     const { email, password, username } = data;

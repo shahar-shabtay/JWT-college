@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const commentSchema = new mongoose.Schema({
     commenter: { type: String, required: true },
@@ -6,4 +6,4 @@ const commentSchema = new mongoose.Schema({
     content: { type: String, required: true },
 });
 
-module.exports = mongoose.model('Comment', commentSchema);
+export default mongoose.model("Comment", commentSchema);

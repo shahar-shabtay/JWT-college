@@ -1,4 +1,5 @@
-const Post = require('../models/posts');
+import { Request, Response } from 'express';
+import Post from '../models/posts';
 
 // Add a New Post
 const addPost = async (req, res) => {
@@ -92,10 +93,32 @@ const updatePost = async (req, res) => {
   }
 };
 
-module.exports = {
+// Delete a post by ID
+const deletePostByID = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const postID = req.params.id; // Extract post ID from the URL
+
+    // Find the post by ID and delete it
+    const deletedPost = await Post.findByIdAndDelete(postID);
+
+    if (!deletedPost) {
+      res.status(404).json({ error: 'Post not found' }); // Handle case where post doesn't exist
+      return;
+    }
+
+    // Return a success message
+    res.status(200).json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' }); // Handle server errors
+  }
+};
+
+export const postController = {
   addPost,
   getAllPosts,
   getPostById,
   updatePost,
-  getPostsBySender
+  getPostsBySender,
+  deletePostByID
 };

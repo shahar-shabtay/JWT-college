@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const postSchema = new mongoose.Schema({
     title: { type: String, required: true },
@@ -7,4 +7,4 @@ const postSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now } // Automatically sets the timestamp
 });
 
-module.exports = mongoose.model('Post', postSchema);
+export default mongoose.model("Post", postSchema);

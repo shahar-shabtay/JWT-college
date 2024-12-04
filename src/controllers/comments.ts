@@ -1,7 +1,8 @@
-const Comment = require('../models/comments');
+import { Request, Response } from 'express';
+import Comment from "../models/comments";
 
 // Add a New comment
-const addComment = async (req, res) => {
+const addComment = async (req:Request ,res:Response) => {
     try {
         const { commenter, postID, content} = req.body;
 
@@ -15,7 +16,7 @@ const addComment = async (req, res) => {
 };
 
 // Get All comments
-const getAllcomments = async (req, res) => {
+const getAllcomments = async (req:Request ,res:Response) => {
   const filter = req.query.owner;
   try {
     if (filter) {
@@ -31,7 +32,7 @@ const getAllcomments = async (req, res) => {
 };
 
 // Get comment by ID
-const getcommentById = async (req, res) => {
+const getcommentById = async (req:Request ,res:Response) => {
     const commentId = req.params.id;
     try {
       const comment = await Comment.findById(commentId);
@@ -47,49 +48,51 @@ const getcommentById = async (req, res) => {
 
 
 // Update comment data
-const updatecomment = async (req, res) => {
+const updateComment = async (req: Request, res: Response): Promise<void> => {
   const commentId = req.params.id;
   const commentData = req.body;
 
   try {
     const comment = await Comment.findById(commentId);
     if (!comment) {
-      return res.status(404).json({ error: 'comment not found' });
+      res.status(404).json({ error: 'comment not found' });
+      return;
     }
-    
+
     Object.assign(comment, commentData);
-    
+
     await comment.save();
-    return res.status(200).json(comment);
+    res.status(200).json(comment);
   } catch (error) {
-    return res.status(500).json({ error: 'Error updating comment: ' + error.message });
+    res.status(500).json({ error: 'Error updating comment: ' + error.message });
   }
 };
 
 // Delete a comment by ID
-const deleteCommentByID = async (req, res) => {
+const deleteCommentByID = async (req: Request, res: Response): Promise<void> => {
   try {
-      const commentId = req.params.id; // Extract comment ID from the URL
+    const commentId = req.params.id; // Extract comment ID from the URL
 
-      // Find the comment by ID and delete it
-      const deletedComment = await Comment.findByIdAndDelete(commentId);
+    // Find the comment by ID and delete it
+    const deletedComment = await Comment.findByIdAndDelete(commentId);
 
-      if (!deletedComment) {
-          return res.status(404).json({ error: 'Comment not found' }); // Handle case where comment doesn't exist
-      }
+    if (!deletedComment) {
+      res.status(404).json({ error: 'Comment not found' }); // Handle case where comment doesn't exist
+      return;
+    }
 
-      // Return a success message
-      res.status(200).json({ message: 'Comment deleted successfully' });
+    // Return a success message
+    res.status(200).json({ message: 'Comment deleted successfully' });
   } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Server error' }); // Handle server errors
+    console.error(error);
+    res.status(500).json({ error: 'Server error' }); // Handle server errors
   }
 };
 
-module.exports = {
-  addComment,
-  getAllcomments,
-  getcommentById,
-  updatecomment, 
-  deleteCommentByID
+export const commentController = {
+  addComment, 
+  getAllcomments, 
+  getcommentById, 
+  updateComment, 
+  deleteCommentByID 
 };

@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const postController = require('../controllers/posts');
+import  { postController } from '../controllers/posts';
 
 // Add a new post
 router.post('/', postController.addPost);
@@ -17,5 +17,8 @@ router.get('/posts', postController.getPostsBySender);
 // Update post data by id
 router.put('/:id', postController.updatePost);
 
+// Delete post by ID
+router.delete("/:id", postController.deletePostByID);
 
-module.exports = router;
+
+export = router;

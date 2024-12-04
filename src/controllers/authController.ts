@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { register, login, refreshAccessToken } from '../src/services/authService';
+import { register, login, refreshAccessToken } from '../services/authService';
 
 // User registration
 export async function registerUser(req: Request, res: Response): Promise<void> {
