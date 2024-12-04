@@ -24,6 +24,9 @@ app.use('/posts', postRoutes);
 const commentRoutes = require('./routes/comments');
 app.use('/comments', commentRoutes); 
 
+const userRoutes = require('./routes/users');
+app.use('/users', userRoutes); 
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
   });
