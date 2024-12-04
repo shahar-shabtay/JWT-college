@@ -1,2 +1,0 @@
-### Get Posts by Sender
-GET http://localhost:3000/posts?sender=64fe4c2ae7891b6cf7890def
