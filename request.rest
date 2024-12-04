@@ -12,10 +12,10 @@ Content-Type: application/json
 GET http://localhost:3000/posts
 
 ### Get post by ID
-GET http://localhost:3000/posts/673b6f5c8aef12de14358c8c
+GET http://localhost:3000/posts/675011fbf37579481a85cf0e
 
 ### Update post data
-PUT http://localhost:3000/posts/673b6f5c8aef12de14358c8c
+PUT http://localhost:3000/posts/675011fbf37579481a85cf0e
 Content-Type: application/json
 
 {
@@ -25,6 +25,10 @@ Content-Type: application/json
 
 ### Get Posts by Sender
 GET http://localhost:3000/posts?sender=64fe4c2ae7891b6cf7890def
+
+### Delete a Post by ID
+DELETE http://localhost:3000/posts/673b778744cf4e7b4ffd1bb5
+Content-Type: application/json
 
 ### Create new comment
 POST http://localhost:3000/comments
@@ -40,10 +44,10 @@ Content-Type: application/json
 GET http://localhost:3000/comments
 
 ### Get comment by ID
-GET http://localhost:3000/comments/67418b745775497cb9ec313b
+GET http://localhost:3000/comments/675012e5f37579481a85cf15
 
 ### Update comment data
-PUT http://localhost:3000/comments/67418b745775497cb9ec313b
+PUT http://localhost:3000/comments/675012e5f37579481a85cf15
 Content-Type: application/json
 
 {
@@ -51,7 +55,7 @@ Content-Type: application/json
 }
 
 ### Delete a Comment by ID
-DELETE http://localhost:3000/comments/67418c6e500c93081168e5eb
+DELETE http://localhost:3000/comments/675012e5f37579481a85cf15
 Content-Type: application/json
 
 ### Create new user
@@ -68,10 +72,10 @@ Content-Type: application/json
 GET http://localhost:3000/users
 
 ### Get user by ID
-GET http://localhost:3000/users/674c7393d224d6f1777b966a
+GET http://localhost:3000/users/6750133af37579481a85cf1c
 
 ### Update user data
-PUT http://localhost:3000/users/674c7393d224d6f1777b966a
+PUT http://localhost:3000/users/6750133af37579481a85cf1c
 Content-Type: application/json
 
 {
@@ -79,5 +83,5 @@ Content-Type: application/json
 }
 
 ### Delete a user by ID
-DELETE http://localhost:3000/users/674c7393d224d6f1777b966a
+DELETE http://localhost:3000/users/6750133af37579481a85cf1c
 Content-Type: application/json
