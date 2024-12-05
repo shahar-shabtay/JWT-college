@@ -1,9 +1,21 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
-const userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    username: { type: String, required: true },
-    email: { type: String, required: true }
-});
+// Interface for TypeScript typing
+export interface IUser extends Document {
+    email: string;
+    username: string;
+    password: string;
+}
 
+// Define the schema
+const userSchema: Schema = new Schema(
+    {
+        email: { type: String, required: true, unique: true },
+        username: { type: String, required: true },
+        password: { type: String, required: true },
+    },
+    { timestamps: true } // Automatically adds `createdAt` and `updatedAt` fields
+);
+
+// Export the model
 export default mongoose.model("user", userSchema);

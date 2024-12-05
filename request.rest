@@ -85,3 +85,41 @@ Content-Type: application/json
 ### Delete a user by ID
 DELETE http://localhost:3000/users/6750133af37579481a85cf1c
 Content-Type: application/json
+
+### 
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "test123"
+}
+
+### Check registration
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "newuser@example.com",
+    "password": "securepassword",
+    "username": "newuser123"
+}
+### 
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "newuser@example.com",
+    "password": "securepassword"
+}
+
+### Regiter weak 
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "weakpassword@example.com",
+    "password": "123",
+    "username": "weakuser"
+}
+
