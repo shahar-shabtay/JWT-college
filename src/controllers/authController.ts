@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { register, login, refreshAccessToken } from '../services/authService';
-import router from '../routes/posts';
 
 // User registration
 export async function registerUser(req: Request, res: Response): Promise<void> {

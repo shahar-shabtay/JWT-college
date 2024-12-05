@@ -1,35 +1,36 @@
-import express from 'express'
+import express from 'express';
 import dotenv from 'dotenv';
-dotenv.config();
-const app = express();
-const port: string = process.env.PORT || "3000";
 import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
 
-// Connecting to the mongoDB
+dotenv.config();
+
+// Create the Express app
+const app = express();
+
+// MongoDB connection
 const mongoUrl: string = process.env.MONGO_URL as string;
-mongoose.connect(mongoUrl); 
+mongoose.connect(mongoUrl);
 const db = mongoose.connection;
 db.once("open", () => console.log("Connected to database"));
 
-// Body parser
-import bodyParser from 'body-parser';
+// Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+// Routes
 import postRoutes from './routes/posts';
-app.use('/posts', postRoutes); 
+app.use('/posts', postRoutes);
 
 import commentRoutes from './routes/comments';
-app.use('/comments', commentRoutes); 
+app.use('/comments', commentRoutes);
 
 import userRoutes from './routes/users';
 app.use('/users', userRoutes);
+
 // Login  
 import authRoutes from './routes/auth'
 app.use(express.json()); // For parsing JSON
 app.use('/auth', authRoutes); // Register the auth routes
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-  });
+export default app;

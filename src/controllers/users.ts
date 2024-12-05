@@ -3,10 +3,10 @@ import User from '../models/users';
 // Add a New user
 const addUser = async (req, res) => {
     try {
-        const { name, username, email} = req.body;
+        const { name, username, email, password} = req.body;
 
         // Create and save the user
-        const user = new User({ name, username, email });
+        const user = new User({ name, username, email, password });
         await user.save();
         res.status(201).json(user); // Respond with the created user
     } catch (error) {
@@ -79,7 +79,7 @@ const deleteUserByID = async (req, res) => {
       }
 
       // Return a success message
-      res.status(200).json({ message: 'user deleted successfully' });
+      res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Server error' }); // Handle server errors
