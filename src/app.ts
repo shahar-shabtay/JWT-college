@@ -28,4 +28,9 @@ app.use('/comments', commentRoutes);
 import userRoutes from './routes/users';
 app.use('/users', userRoutes);
 
+// Login  
+import authRoutes from './routes/auth'
+app.use(express.json()); // For parsing JSON
+app.use('/auth', authRoutes); // Register the auth routes
+
 export default app;

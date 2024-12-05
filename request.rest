@@ -1,0 +1,126 @@
+### Create new post
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+    "title": "My First Post",
+    "content": "This is the content of my first post.",
+    "sender": "64fe4c2ae7891b6cf7890def"
+}
+
+### Get all posts
+GET http://localhost:3000/posts
+
+### Get post by ID
+GET http://localhost:3000/posts/675011fbf37579481a85cf0e
+
+### Update post data
+PUT http://localhost:3000/posts/675011fbf37579481a85cf0e
+Content-Type: application/json
+
+{
+    "title": "My LASTTTTTTTTT Post",
+    "sender": "64fe4c2ae7891b6cf7890def"
+}
+
+### Get Posts by Sender
+GET http://localhost:3000/posts?sender=64fe4c2ae7891b6cf7890def
+
+### Delete a Post by ID
+DELETE http://localhost:3000/posts/673b778744cf4e7b4ffd1bb5
+Content-Type: application/json
+
+### Create new comment
+POST http://localhost:3000/comments
+Content-Type: application/json
+
+{
+    "commenter": "Yuval",
+    "postID": "673b7041241ed1b7a603a64b",
+    "content": "This is the best post ever!"
+}
+
+### Get all comments
+GET http://localhost:3000/comments
+
+### Get comment by ID
+GET http://localhost:3000/comments/675012e5f37579481a85cf15
+
+### Update comment data
+PUT http://localhost:3000/comments/675012e5f37579481a85cf15
+Content-Type: application/json
+
+{
+    "postID": "12345"
+}
+
+### Delete a Comment by ID
+DELETE http://localhost:3000/comments/675012e5f37579481a85cf15
+Content-Type: application/json
+
+### Create new user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "name": "Yuval",
+    "username": "yuval123",
+    "email": "yuval@example.com"
+}
+
+### Get all users
+GET http://localhost:3000/users
+
+### Get user by ID
+GET http://localhost:3000/users/6750133af37579481a85cf1c
+
+### Update user data
+PUT http://localhost:3000/users/6750133af37579481a85cf1c
+Content-Type: application/json
+
+{
+    "email": "2@example.com"
+}
+
+### Delete a user by ID
+DELETE http://localhost:3000/users/6750133af37579481a85cf1c
+Content-Type: application/json
+
+### 
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "test123"
+}
+
+### Check registration
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "newuser@example.com",
+    "password": "securepassword",
+    "username": "newuser123"
+}
+
+### Login with new user
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "newuser@example.com",
+    "password": "securepassword"
+}
+
+### Regiter weak 
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "weakpassword@example.com",
+    "password": "123",
+    "username": "weakuser"
+}
+
