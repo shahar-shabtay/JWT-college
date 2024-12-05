@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { register, login, refreshAccessToken } from '../services/authService';
+import router from '../routes/posts';
 
 // User registration
 export async function registerUser(req: Request, res: Response): Promise<void> {
@@ -12,12 +13,18 @@ export async function registerUser(req: Request, res: Response): Promise<void> {
 }
 
 // User login
+// Login route with debug prints
 export async function loginUser(req: Request, res: Response): Promise<void> {
     try {
         const { email, password } = req.body;
+        console.log("Login attempt:", { email, password }); // Debug print
+
         const tokens = await login(email, password);
+        console.log("Generated tokens:", tokens); // Debug print
+
         res.status(200).json(tokens);
     } catch (error) {
+        console.error("Login error:", error.message); // Debug print
         res.status(401).json({ error: error.message });
     }
 }

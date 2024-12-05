@@ -24,7 +24,11 @@ import commentRoutes from './routes/comments';
 app.use('/comments', commentRoutes); 
 
 import userRoutes from './routes/users';
-app.use('/users', userRoutes); 
+app.use('/users', userRoutes);
+// Login  
+import authRoutes from './routes/auth'
+app.use(express.json()); // For parsing JSON
+app.use('/auth', authRoutes); // Register the auth routes
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
