@@ -3,10 +3,10 @@ import User from '../models/users';
 // Add a New user
 const addUser = async (req, res) => {
     try {
-        const { name, username, email, password} = req.body;
+        const {username, email, password} = req.body;
 
         // Create and save the user
-        const user = new User({ name, username, email, password });
+        const user = new User({username, email, password });
         await user.save();
         res.status(201).json(user); // Respond with the created user
     } catch (error) {

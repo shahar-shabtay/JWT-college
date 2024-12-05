@@ -25,7 +25,6 @@ describe("Users tests", () => {
     // Create a new user
     it("create a new user", async () => {
         const newUser = {
-            name: "Yuval",
             username: "yuval123",
             email: "yuval@example.com",
             password: "123456"
@@ -35,7 +34,6 @@ describe("Users tests", () => {
 
         expect(response.status).toBe(201); // Created
         expect(response.body).toHaveProperty("_id");
-        expect(response.body.name).toBe("Yuval");
         expect(response.body.username).toBe("yuval123");
         expect(response.body.email).toBe("yuval@example.com");
 
@@ -57,7 +55,6 @@ describe("Users tests", () => {
 
         expect(response.status).toBe(200); // OK
         expect(response.body).toHaveProperty("_id", testUserId);
-        expect(response.body.name).toBe("Yuval");
         expect(response.body.username).toBe("yuval123");
         expect(response.body.email).toBe("yuval@example.com");
     });
