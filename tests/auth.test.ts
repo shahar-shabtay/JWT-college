@@ -9,7 +9,8 @@ let registeredUser: any; // Using 'any' instead of defining a strict type
 beforeAll(async () => {
   testApp = app;
 
-  // Connect to the test database only if not already connected
+  // Close old connections 
+  await mongoose.connection.close();
   if (mongoose.connection.readyState === 0) {
     const dbUri = process.env.TEST_MONGO_URL || "";
     console.log(`Connecting to MongoDB at ${dbUri}`);
