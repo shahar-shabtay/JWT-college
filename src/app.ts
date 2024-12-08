@@ -3,7 +3,9 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 
-dotenv.config();
+const envFile = process.env.ENV_FILE || '.env';
+console.log(`Using environment file: ${envFile}`);
+dotenv.config({ path: envFile });
 
 // Create the Express app
 const app = express();
