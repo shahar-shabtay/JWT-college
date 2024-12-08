@@ -77,7 +77,7 @@ describe("Users tests", () => {
         const response = await request(testApp).delete(`/users/${testUserId}`);
 
         expect(response.status).toBe(200); // OK
-        expect(response.body).toHaveProperty("message", "User deleted successfully");
+        expect(response.body).toHaveProperty("message", "Object deleted successfully");
 
         // Confirm user deletion
         const getUserResponse = await request(testApp).get(`/users/${testUserId}`);

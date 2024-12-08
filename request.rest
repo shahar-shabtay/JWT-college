@@ -65,7 +65,7 @@ Content-Type: application/json
 {
     "name": "Yuval",
     "username": "yuval123",
-    "email": "yuval2@example.com",
+    "email": "yuval12@example.com",
     "password": "yuval123"
 }
 
@@ -73,10 +73,10 @@ Content-Type: application/json
 GET http://localhost:3000/users
 
 ### Get user by ID
-GET http://localhost:3000/users/6751dc2defc18139afcfd7b1
+GET http://localhost:3000/users/675568e6d4e30f4f7b60baff
 
 ### Update user data
-PUT http://localhost:3000/users/6751dc2defc18139afcfd7b1
+PUT http://localhost:3000/users/675568e6d4e30f4f7b60baff
 Content-Type: application/json
 
 {
@@ -84,7 +84,7 @@ Content-Type: application/json
 }
 
 ### Delete a user by ID
-DELETE http://localhost:3000/users/6751dc2defc18139afcfd7b1
+DELETE http://localhost:3000/users/675568e6d4e30f4f7b60baff
 Content-Type: application/json
 
 ### 

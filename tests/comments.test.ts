@@ -79,7 +79,7 @@ describe("Comments tests", () => {
         const response = await request(testApp).delete(`/comments/${testCommentId}`);
 
         expect(response.status).toBe(200); // OK
-        expect(response.body).toHaveProperty("message", "Comment deleted successfully");
+        expect(response.body).toHaveProperty("message", "Object deleted successfully");
 
         // Confirm comment deletion
         const getCommentResponse = await request(testApp).get(`/comments/${testCommentId}`);

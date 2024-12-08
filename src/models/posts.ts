@@ -1,10 +1,20 @@
 import mongoose from 'mongoose';
 
-const postSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    content: { type: String, required: true },
-    sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Links to a User
-    createdAt: { type: Date, default: Date.now } // Automatically sets the timestamp
-});
+// Interface for TypeScript typing
+export interface IPost extends Document {
+    title: string;
+    content: string;
+    sender: mongoose.Schema.Types.ObjectId;
+}
 
-export default mongoose.model("Post", postSchema);
+const postSchema = new mongoose.Schema<IPost>(
+    {
+        title: { type: String, required: true },
+        content: { type: String, required: true },
+        sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Links to a User
+
+    },
+    { timestamps: true } // Automatically adds `createdAt` and `updatedAt` fields
+);
+
+export default mongoose.model<IPost>("Post", postSchema);
