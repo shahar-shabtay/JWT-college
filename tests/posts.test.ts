@@ -87,7 +87,7 @@ describe("Posts tests", () => {
         const response = await request(testApp).delete(`/posts/${testPostId}`);
 
         expect(response.status).toBe(200); // OK
-        expect(response.body).toHaveProperty("message", "Post deleted successfully");
+        expect(response.body).toHaveProperty("message", "Object deleted successfully");
 
         // Confirm post deletion
         const getPostResponse = await request(testApp).get(`/posts/${testPostId}`);
