@@ -1,6 +1,13 @@
 import { Router } from 'express';
 import { registerUser, loginUser, logoutUser, refreshToken } from '../controllers/authController';
 
+/**
+ * @swagger
+ * tags:
+ *  name: Auth
+ *  description: The Authentication API
+ */
+
 const router = Router();
 
 // Register a new user
