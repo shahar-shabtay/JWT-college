@@ -4,7 +4,7 @@
     "description": "",
     "main": "app.js",
     "scripts": {
-        "test": "tsc && cross-env ENV_FILE=.env.local jest --detectOpenHandles --forceExit ./tests/posts.test.ts",
+        "test": "tsc && cross-env ENV_FILE=.env.local jest --detectOpenHandles --forceExit --coverage",
         "dev": "nodemon app.js",
         "lint": "eslint . --ext .ts",
         "start:local": "tsc && cross-env ENV_FILE=.env.local node dist/src/server.js",
