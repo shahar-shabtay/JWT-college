@@ -3,24 +3,35 @@ import app from "../src/app";
 import mongoose from "mongoose";
 import Post from "../src/models/posts";
 import { Express } from "express";
+import User from "../src/models/users";
+
+const user = {
+    email: "newuser@example.com",
+    password: "securepassword",
+    username: "newuser123"
+}
 
 let testApp: Express;
+let accessToken: string;
 
 beforeAll(async () => {
     
     // Close old connections 
     await mongoose.connection.close();
     if (mongoose.connection.readyState === 0) {
-        const dbUri = process.env.TEST_MONGO_URL || "";
-        console.log(`Connecting to MongoDB at ${dbUri}`);
 
         // Connect to MongoDB
         await mongoose.connect(process.env.TEST_MONGO_URL || "");
         await Post.deleteMany();
-        console.log('MongoDB connection established');
+        await User.deleteMany();
     }
 
     testApp = app;
+    
+    // Get a token
+    await request(testApp).post("/auth/register").send(user);
+    const response = await request(testApp).post("/auth/login").send(user);
+    accessToken = response.body.accessToken;
 });
 
 afterAll(async () => {
@@ -38,7 +49,7 @@ describe("Posts tests", () => {
             sender: "64fe4c2ae7891b6cf7890def"
         };
 
-        const response = await request(testApp).post("/posts").send(newPost);
+        const response = (await request(testApp).post("/posts").set("Authorization", `JWT ${accessToken}`).send(newPost));
 
         expect(response.status).toBe(201); // Created
         expect(response.body).toHaveProperty("_id");
@@ -83,7 +94,7 @@ describe("Posts tests", () => {
             title: "My LASTTTTTTTTT Post"
         };
 
-        const response = await request(testApp).put(`/posts/${testPostId}`).send(updatedData);
+        const response = await request(testApp).put(`/posts/${testPostId}`).set("Authorization", `JWT ${accessToken}`).send(updatedData);
 
         expect(response.status).toBe(200); // OK
         expect(response.body).toHaveProperty("_id", testPostId);
@@ -92,7 +103,7 @@ describe("Posts tests", () => {
 
     // Delete a post by ID
     it("delete a post by ID", async () => {
-        const response = await request(testApp).delete(`/posts/${testPostId}`);
+        const response = await request(testApp).delete(`/posts/${testPostId}`).set("Authorization", `JWT ${accessToken}`);
 
         expect(response.status).toBe(200); // OK
         expect(response.body).toHaveProperty("message", "Object deleted successfully");

@@ -5,14 +5,13 @@ import User from "../src/models/users";
 import { Express } from "express";
 
 let testApp: Express;
-
-interface User {
-    email: string;
-    username: string;
-  }
-  
-let registeredUser: User; // Define a strict type for registeredUser
 let accessToken: string;
+
+const user = {
+    email: "newuser@example.com",
+    password: "securepassword",
+    username: "newuser123"
+}
 
 beforeAll(async () => {
     
@@ -28,29 +27,10 @@ beforeAll(async () => {
 
     testApp = app;
 
-    // Register a new user before the tests
-    const uniqueEmail = `test-${Date.now()}@example.com`;  // Generate unique email using timestamp
-    const res = await request(testApp).post('/auth/register').send({
-    email: uniqueEmail,
-    password: 'test123',
-    username: 'test2user',
-    });
-
-    // Check for errors and handle registration
-    if (res.body.error) {
-        console.log(`Error during registration: ${res.body.error}`);
-    } else {
-        registeredUser = res.body.user || {}; // Ensure registeredUser is assigned correctly
-        console.log(`User registered with Email: ${registeredUser.email}`);
-    }
-
-    const response = await request(testApp).post("/auth/login").send({
-        email: registeredUser.email,
-        password: "test123"
-    });
-      expect(response.status).toBe(200);
-      accessToken = response.body.accessToken; // Set the shared accessToken
-      expect(accessToken).toBeDefined();  
+    // Get a token
+    await request(testApp).post("/auth/register").send(user);
+    const response = await request(testApp).post("/auth/login").send(user);
+    accessToken = response.body.accessToken;
 });
 
 afterAll(async () => {
