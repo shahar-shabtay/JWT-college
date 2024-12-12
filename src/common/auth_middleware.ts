@@ -16,7 +16,7 @@ const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction) =
             console.log(err);
             return res.status(403).send("Invalid token" + err);
         }
-        req.user = user as { _id: string};
+        req['user'] = user as { _id: string };
         next();
     });
 }

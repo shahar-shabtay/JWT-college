@@ -1,11 +1,21 @@
 import { Request, Response } from 'express';
 import Post, { IPost } from '../models/posts';
 import { BaseController } from './baseController';
+import { Model } from "mongoose";
 
 class postController extends BaseController<IPost> {
-    constructor() {
-        super(Post);
+    constructor(model: Model<IPost>) {
+        super(model);
     }
+
+    // Create new object
+    async post (req: Request, res: Response) {
+        const userId = req['user']._id;  // Get the user ID from the request object
+        const message = req.body;
+        message.owner = userId
+        super.post(req, res);
+    }
+
 }
 
 const getPostsByOwner = async (req: Request, res: Response) => {
@@ -32,5 +42,5 @@ const getPostsByOwner = async (req: Request, res: Response) => {
     }
 };
 
-export default new postController;
+export default new postController(Post);
 export { getPostsByOwner };

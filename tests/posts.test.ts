@@ -31,12 +31,11 @@ beforeAll(async () => {
     testApp = app;
     
     // Get a token
+    // await request(testApp).post("/auth/register").send(user);
     const register_response = await request(testApp).post("/auth/register").send(user);
-    console.log(register_response.body);
-    userId = register_response.body._id;
+    userId = register_response.body.user.id;
     const response = await request(testApp).post("/auth/login").send(user);
     accessToken = response.body.accessToken;
-    console.log(accessToken);
 });
 
 afterAll(async () => {
@@ -51,7 +50,7 @@ describe("Posts tests", () => {
         const newPost = {
             title: "My First Post",
             content: "This is the content of my first post.",
-            owner: "64fe4c2ae7891b6cf7890def"
+            owner: "123"
         };
 
         const response = (await request(testApp).post("/posts").set("Authorization", `JWT ${accessToken}`).send(newPost));
@@ -61,7 +60,7 @@ describe("Posts tests", () => {
         expect(response.body.title).toBe("My First Post");
         expect(response.body.content).toBe("This is the content of my first post.");
 
-        // expect(response.body.owner).toEqual(userId);
+        expect(response.body.owner).toEqual(userId);
 
         // Save the post ID for later use
         testPostId = response.body._id;
@@ -91,7 +90,7 @@ describe("Posts tests", () => {
         expect(response.body).toHaveProperty("_id", testPostId);
         expect(response.body.title).toBe("My First Post");
         expect(response.body.content).toBe("This is the content of my first post.");
-        expect(response.body.owner).toBe("64fe4c2ae7891b6cf7890def");
+        expect(response.body.owner).toBe(userId);
     });
 
     // Update post data
