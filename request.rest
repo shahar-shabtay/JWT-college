@@ -5,7 +5,7 @@ Content-Type: application/json
 {
     "title": "My First Post",
     "content": "This is the content of my first post.",
-    "sender": "64fe4c2ae7891b6cf7890def"
+    "owner": "64fe4c2ae7891b6cf7890def"
 }
 
 ### Get all posts
@@ -20,11 +20,11 @@ Content-Type: application/json
 
 {
     "title": "My LASTTTTTTTTT Post",
-    "sender": "64fe4c2ae7891b6cf7890def"
+    "owner": "64fe4c2ae7891b6cf7890def"
 }
 
-### Get Posts by Sender
-GET http://localhost:3000/posts?sender=64fe4c2ae7891b6cf7890def
+### Get Posts by Owner
+GET http://localhost:3000/posts?owner=64fe4c2ae7891b6cf7890def
 
 ### Delete a Post by ID
 DELETE http://localhost:3000/posts/673b778744cf4e7b4ffd1bb5

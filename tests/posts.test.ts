@@ -3,24 +3,39 @@ import app from "../src/app";
 import mongoose from "mongoose";
 import Post from "../src/models/posts";
 import { Express } from "express";
+import User, { IUser } from "../src/models/users";
+// import exp from "constants";
+
+const user: IUser = {
+    email: "newuser@example.com",
+    username: "newuser123",
+    password: "securepassword"
+}
 
 let testApp: Express;
+let accessToken: string;
+let userId: string;
 
 beforeAll(async () => {
     
     // Close old connections 
     await mongoose.connection.close();
     if (mongoose.connection.readyState === 0) {
-        const dbUri = process.env.TEST_MONGO_URL || "";
-        console.log(`Connecting to MongoDB at ${dbUri}`);
 
         // Connect to MongoDB
         await mongoose.connect(process.env.TEST_MONGO_URL || "");
         await Post.deleteMany();
-        console.log('MongoDB connection established');
+        await User.deleteMany();
     }
 
     testApp = app;
+    
+    // Get a token
+    // await request(testApp).post("/auth/register").send(user);
+    const register_response = await request(testApp).post("/auth/register").send(user);
+    userId = register_response.body.user.id;
+    const response = await request(testApp).post("/auth/login").send(user);
+    accessToken = response.body.accessToken;
 });
 
 afterAll(async () => {
@@ -35,16 +50,17 @@ describe("Posts tests", () => {
         const newPost = {
             title: "My First Post",
             content: "This is the content of my first post.",
-            sender: "64fe4c2ae7891b6cf7890def"
+            owner: "123"
         };
 
-        const response = await request(testApp).post("/posts").send(newPost);
+        const response = (await request(testApp).post("/posts").set("Authorization", `JWT ${accessToken}`).send(newPost));
 
         expect(response.status).toBe(201); // Created
         expect(response.body).toHaveProperty("_id");
         expect(response.body.title).toBe("My First Post");
         expect(response.body.content).toBe("This is the content of my first post.");
-        expect(response.body.sender).toBe("64fe4c2ae7891b6cf7890def");
+
+        expect(response.body.owner).toEqual(userId);
 
         // Save the post ID for later use
         testPostId = response.body._id;
@@ -58,9 +74,9 @@ describe("Posts tests", () => {
         expect(Array.isArray(response.body)).toBe(true);
     });
 
-    // Get post by sender
-    it("get a post by sender", async () => {
-        const response = await request(testApp).get("/posts?sender=64fe4c2ae7891b6cf7890def");
+    // Get post by owner
+    it("get a post by owner", async () => {
+        const response = await request(testApp).get("/posts?owner=64fe4c2ae7891b6cf7890def");
 
         expect(response.status).toBe(200); // OK
         expect(Array.isArray(response.body)).toBe(true);
@@ -74,7 +90,7 @@ describe("Posts tests", () => {
         expect(response.body).toHaveProperty("_id", testPostId);
         expect(response.body.title).toBe("My First Post");
         expect(response.body.content).toBe("This is the content of my first post.");
-        expect(response.body.sender).toBe("64fe4c2ae7891b6cf7890def");
+        expect(response.body.owner).toBe(userId);
     });
 
     // Update post data
@@ -83,7 +99,7 @@ describe("Posts tests", () => {
             title: "My LASTTTTTTTTT Post"
         };
 
-        const response = await request(testApp).put(`/posts/${testPostId}`).send(updatedData);
+        const response = await request(testApp).put(`/posts/${testPostId}`).set("Authorization", `JWT ${accessToken}`).send(updatedData);
 
         expect(response.status).toBe(200); // OK
         expect(response.body).toHaveProperty("_id", testPostId);
@@ -92,7 +108,7 @@ describe("Posts tests", () => {
 
     // Delete a post by ID
     it("delete a post by ID", async () => {
-        const response = await request(testApp).delete(`/posts/${testPostId}`);
+        const response = await request(testApp).delete(`/posts/${testPostId}`).set("Authorization", `JWT ${accessToken}`);
 
         expect(response.status).toBe(200); // OK
         expect(response.body).toHaveProperty("message", "Object deleted successfully");
