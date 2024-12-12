@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 
-// Interface for TypeScript typing
-export interface IUser extends Document {
+// Define the IUser interface
+export interface IUser {
     email: string;
     username: string;
     password: string;
+    _Id?: string;
 }
 
 // Define the schema

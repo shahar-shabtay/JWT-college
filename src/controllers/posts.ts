@@ -8,19 +8,19 @@ class postController extends BaseController<IPost> {
     }
 }
 
-const getPostsBySender = async (req: Request, res: Response) => {
+const getPostsByOwner = async (req: Request, res: Response) => {
     try {
-        const senderId = req.query.sender;  // Get the sender ID from query params
+        const ownerId = req.query.owner;  // Get the owner ID from query params
 
-        if (!senderId) {
-            return res.status(400).json({ error: 'Sender ID is required' });  // Return an error if sender ID is missing
+        if (!ownerId) {
+            return res.status(400).json({ error: 'Owner ID is required' });  // Return an error if owner ID is missing
         }
 
-        // Find posts by sender ID and populate sender details
-        const posts = await Post.find({ sender: senderId }).populate('sender', 'name email');
+        // Find posts by owner ID and populate owner details
+        const posts = await Post.find({ owner: ownerId }).populate('owner', 'name email');
 
         if (posts.length === 0) {
-            return res.status(404).json({ message: 'No posts found for this sender' });  // No posts found for this sender
+            return res.status(404).json({ message: 'No posts found for this owner' });  // No posts found for this owner
         }
 
         // Return posts as JSON
@@ -33,4 +33,4 @@ const getPostsBySender = async (req: Request, res: Response) => {
 };
 
 export default new postController;
-export { getPostsBySender };
+export { getPostsByOwner };
