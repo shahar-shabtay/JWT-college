@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import User from '../models/users';
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../../utils/jwtUtils';
 

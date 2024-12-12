@@ -1,9 +1,12 @@
 import { Request, Response } from 'express';
 import Post, { IPost } from '../models/posts';
-import createController from './baseController';
+import { BaseController } from './baseController';
 
-const postController = createController<IPost>(Post);
-
+class postController extends BaseController<IPost> {
+    constructor() {
+        super(Post);
+    }
+}
 
 const getPostsBySender = async (req: Request, res: Response) => {
     try {
@@ -29,5 +32,5 @@ const getPostsBySender = async (req: Request, res: Response) => {
     }
 };
 
-export default postController;
+export default new postController;
 export { getPostsBySender };

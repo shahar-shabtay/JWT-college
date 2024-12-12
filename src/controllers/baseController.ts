@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Model } from 'mongoose';
 
-class BaseController<T>{
+export class BaseController<T>{
     model: Model<T>;
     constructor(model: Model<T>) {
         this.model = model;
@@ -13,6 +13,7 @@ class BaseController<T>{
             const created = await this.model.create(req.body)
             res.status(201).json(created);
         } catch (error) {
+            console.error(error);
             res.status(500).json({ error: error.message }); // Handle server errors
         }
     }

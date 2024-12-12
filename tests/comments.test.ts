@@ -7,12 +7,20 @@ import { Express } from "express";
 let testApp: Express;
 
 beforeAll(async () => {
+
+    // Close old connections 
+    await mongoose.connection.close();
+    if (mongoose.connection.readyState === 0) {
+        const dbUri = process.env.TEST_MONGO_URL || "";
+        console.log(`Connecting to MongoDB at ${dbUri}`);
+
+        // Connect to MongoDB
+        await mongoose.connect(process.env.TEST_MONGO_URL || "");
+        await Comment.deleteMany();
+        console.log('MongoDB connection established');
+    }    
+
     testApp = app;
-
-    // Connect to MongoDB
-    await mongoose.connect(process.env.TEST_MONGO_URL || "");
-    await Comment.deleteMany();
-
 });
 
 afterAll(async () => {
