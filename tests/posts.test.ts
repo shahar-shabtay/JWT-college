@@ -31,11 +31,10 @@ beforeAll(async () => {
     testApp = app;
     
     // Get a token
-    await request(testApp).post("/auth/register").send(user);
-    // const register_response = await request(testApp).post("/auth/register").send(user);
-    // userId = register_response.body._id;
+    const register_response = await request(testApp).post("/auth/register").send(user);
+    console.log(register_response.body);
+    userId = register_response.body._id;
     const response = await request(testApp).post("/auth/login").send(user);
-    console.log(response.body);
     accessToken = response.body.accessToken;
     console.log(accessToken);
 });
