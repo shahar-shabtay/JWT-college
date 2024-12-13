@@ -1,14 +1,15 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose from 'mongoose';
 
-// Interface for TypeScript typing
-export interface IUser extends Document {
+// Define the IUser interface
+export interface IUser {
     email: string;
     username: string;
     password: string;
+    _Id?: string;
 }
 
 // Define the schema
-const userSchema: Schema = new Schema(
+const userSchema = new mongoose.Schema<IUser>(
     {
         email: { type: String, required: true, unique: true },
         username: { type: String, required: true },
@@ -18,4 +19,4 @@ const userSchema: Schema = new Schema(
 );
 
 // Export the model
-export default mongoose.model("User", userSchema);
+export default mongoose.model<IUser>("User", userSchema);

@@ -5,14 +5,32 @@ import User from "../src/models/users";
 import { Express } from "express";
 
 let testApp: Express;
+let accessToken: string;
+
+const user = {
+    email: "newuser@example.com",
+    password: "securepassword",
+    username: "newuser123"
+}
 
 beforeAll(async () => {
+    
+    // Close old connections 
+    await mongoose.connection.close();
+    if (mongoose.connection.readyState === 0) {
+        
+        // Connect to MongoDB
+        await mongoose.connect(process.env.TEST_MONGO_URL || "");
+        console.log('MongoDB connection established');
+        await User.deleteMany();
+    }    
+
     testApp = app;
 
-    // Connect to MongoDB
-    await mongoose.connect(process.env.TEST_MONGO_URL || "");
-    await User.deleteMany();
-
+    // Get a token
+    await request(testApp).post("/auth/register").send(user);
+    const response = await request(testApp).post("/auth/login").send(user);
+    accessToken = response.body.accessToken;
 });
 
 afterAll(async () => {
@@ -25,12 +43,12 @@ describe("Users tests", () => {
     // Create a new user
     it("create a new user", async () => {
         const newUser = {
-            username: "yuval123",
             email: "yuval@example.com",
+            username: "yuval123",
             password: "123456"
         };
 
-        const response = await request(testApp).post("/users").send(newUser);
+        const response = await request(testApp).post("/users").send(newUser).set("Authorization", `JWT ${accessToken}`);
 
         expect(response.status).toBe(201); // Created
         expect(response.body).toHaveProperty("_id");
@@ -43,7 +61,7 @@ describe("Users tests", () => {
 
     // Get all users
     it("get all users", async () => {
-        const response = await request(testApp).get("/users");
+        const response = await request(testApp).get("/users").set("Authorization", `JWT ${accessToken}`);
 
         expect(response.status).toBe(200); // OK
         expect(Array.isArray(response.body)).toBe(true);
@@ -51,7 +69,7 @@ describe("Users tests", () => {
 
     // Get user by ID
     it("get a user by ID", async () => {
-        const response = await request(testApp).get(`/users/${testUserId}`);
+        const response = await request(testApp).get(`/users/${testUserId}`).set("Authorization", `JWT ${accessToken}`);
 
         expect(response.status).toBe(200); // OK
         expect(response.body).toHaveProperty("_id", testUserId);
@@ -65,7 +83,7 @@ describe("Users tests", () => {
             email: "2@example.com"
         };
 
-        const response = await request(testApp).put(`/users/${testUserId}`).send(updatedData);
+        const response = await request(testApp).put(`/users/${testUserId}`).send(updatedData).set("Authorization", `JWT ${accessToken}`);
 
         expect(response.status).toBe(200); // OK
         expect(response.body).toHaveProperty("_id", testUserId);
@@ -74,13 +92,13 @@ describe("Users tests", () => {
 
     // Delete a user by ID
     it("delete a user by ID", async () => {
-        const response = await request(testApp).delete(`/users/${testUserId}`);
+        const response = await request(testApp).delete(`/users/${testUserId}`).set("Authorization", `JWT ${accessToken}`);
 
         expect(response.status).toBe(200); // OK
-        expect(response.body).toHaveProperty("message", "User deleted successfully");
+        expect(response.body).toHaveProperty("message", "Object deleted successfully");
 
         // Confirm user deletion
-        const getUserResponse = await request(testApp).get(`/users/${testUserId}`);
+        const getUserResponse = await request(testApp).get(`/users/${testUserId}`).set("Authorization", `JWT ${accessToken}`);
         expect(getUserResponse.status).toBe(404); // Not found
     });
 });

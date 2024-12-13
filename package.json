@@ -4,10 +4,12 @@
     "description": "",
     "main": "app.js",
     "scripts": {
-        "test": "tsc && jest --detectOpenHandles --forceExit --coverage",
+        "test": "tsc && cross-env ENV_FILE=.env.local jest --detectOpenHandles --forceExit",
+        "testPost": "tsc && cross-env ENV_FILE=.env.local jest --detectOpenHandles --forceExit ./tests/posts.test.ts",
         "dev": "nodemon app.js",
         "lint": "eslint . --ext .ts",
-        "start": "tsc && node dist/src/server.js"
+        "start:local": "tsc && cross-env ENV_FILE=.env.local node dist/src/server.js",
+        "start:prod": "tsc && cross-env ENV_FILE=.env.prod node dist/src/server.js"
     },
     "author": "Shahar & Yuval",
     "license": "ISC",
@@ -23,8 +25,13 @@
         "@eslint/js": "^9.16.0",
         "@types/express": "^4.17.1",
         "@types/jest": "^29.5.14",
+<<<<<<< HEAD
+=======
+        "@types/jsonwebtoken": "^9.0.7",
+>>>>>>> origin/main
         "@types/node": "^22.10.1",
         "@types/supertest": "^6.0.2",
+        "cross-env": "^7.0.3",
         "eslint": "^9.16.0",
         "globals": "^15.13.0",
         "jest": "^29.7.0",

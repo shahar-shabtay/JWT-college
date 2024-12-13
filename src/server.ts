@@ -5,7 +5,8 @@ import swaggerJsDoc from "swagger-jsdoc";
 import express from 'express';
 import authRoutes from './routes/auth'
 
-dotenv.config();
+const envFile = process.env.ENV_FILE || '.env';
+dotenv.config({ path: envFile });
 
 // Define the port
 const port: string = process.env.PORT || "3000";

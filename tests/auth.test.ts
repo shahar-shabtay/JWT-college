@@ -2,9 +2,17 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import app from "../src/app";
 import { Express } from "express";
+// import { access } from 'fs';
 
 let testApp: Express;
-let registeredUser: any; // Using 'any' instead of defining a strict type
+
+interface User {
+  email: string;
+  username: string;
+}
+
+let registeredUser: User; // Define a strict type for registeredUser
+let accessToken: string;
 
 beforeAll(async () => {
   testApp = app;
@@ -13,9 +21,7 @@ beforeAll(async () => {
   await mongoose.connection.close();
   if (mongoose.connection.readyState === 0) {
     const dbUri = process.env.TEST_MONGO_URL || "";
-    console.log(`Connecting to MongoDB at ${dbUri}`);
     await mongoose.connect(dbUri);
-    console.log('MongoDB connection established');
   }
 
   // Register a new user before the tests
@@ -33,15 +39,23 @@ beforeAll(async () => {
     registeredUser = res.body.user || {}; // Ensure registeredUser is assigned correctly
     console.log(`User registered with Email: ${registeredUser.email}`);
   }
+
+  const response = await request(testApp).post("/auth/login").send({
+    email: registeredUser.email,
+    password: "test123"
+  });
+  expect(response.status).toBe(200);
+  accessToken = response.body.accessToken; // Set the shared accessToken
+  expect(accessToken).toBeDefined();  
 });
 
 afterAll(async () => {
   // Close the database connection after all tests
   if (mongoose.connection.readyState === 1) {
     await mongoose.connection.close();
-    console.log('MongoDB connection closed');
   }
 });
+
 
 describe('Auth API Tests', () => {
   it('should register a new user', async () => {
@@ -70,5 +84,16 @@ describe('Auth API Tests', () => {
     } else {
       console.error('Weak password test failed.');
     }
+    
+  });
+  
+  test("Test forbidden access without token", async () => {
+    const res = await request(testApp).get("/users");
+    expect(res.status).toBe(401);
+  });
+  
+  test("Test access with token", async () => {
+    const res = await request(testApp).get("/users").set("Authorization", `JWT ${accessToken}`);
+    expect(res.status).toBe(200);
   });
 });

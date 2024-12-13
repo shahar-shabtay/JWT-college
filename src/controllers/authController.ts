@@ -12,18 +12,14 @@ export async function registerUser(req: Request, res: Response): Promise<void> {
 }
 
 // User login
-// Login route with debug prints
 export async function loginUser(req: Request, res: Response): Promise<void> {
     try {
         const { email, password } = req.body;
-        console.log("Login attempt:", { email, password }); // Debug print
 
         const tokens = await login(email, password);
-        console.log("Generated tokens:", tokens); // Debug print
 
-        res.status(200).json(tokens);
+        res.status(200).send(tokens);
     } catch (error) {
-        console.error("Login error:", error.message); // Debug print
         res.status(401).json({ error: error.message });
     }
 }
