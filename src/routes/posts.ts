@@ -37,6 +37,8 @@ router.delete("/:id", authMiddleware, postController.delete.bind(postController)
  *     tags:
  *       - Posts
  *     description: Endpoint to create a new post by providing necessary details in the request body.
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -52,10 +54,6 @@ router.delete("/:id", authMiddleware, postController.delete.bind(postController)
  *                 type: string
  *                 description: The content of the post.
  *                 example: "This is the body of the post."
- *               sender:
- *                 type: string
- *                 description: The ID of the sender creating the post.
- *                 example: "62f99f3b3f2b2e4567a12345"
  *     responses:
  *       201:
  *         description: Post created successfully
@@ -153,6 +151,70 @@ router.delete("/:id", authMiddleware, postController.delete.bind(postController)
  *         description: No posts found for the specified owner.
  *       500:
  *         description: Internal server error.
+ */
+
+//Update a post by ID
+/**
+ * @swagger
+ * /posts/{id}:
+ *   put:
+ *     summary: Update a post by ID
+ *     tags:
+ *       - Posts
+ *     description: Endpoint to update an existing post by providing the post ID and the updated details in the request body.
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: The title of the post.
+ *                 example: "My first post"
+ *               content:
+ *                 type: string
+ *                 description: The content of the post.
+ *                 example: "This is the body of the post."
+ *     responses:
+ *       201:
+ *         description: Post updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       400:
+ *         description: Bad request. Missing or invalid data.
+ *       500:
+ *         description: Internal server error.
+ */
+
+//Delete a post by ID
+/**
+ * @swagger
+ * /posts/{id}:
+ *   delete:
+ *     summary: Delete a post by ID
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the post
+ *     responses:
+ *       200:
+ *         description: Post deleted successfully
+ *       404:
+ *         description: Post not found
+ *       500:
+ *         description: Server error
  */
 
 export = router;
