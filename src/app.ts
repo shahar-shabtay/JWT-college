@@ -20,6 +20,14 @@ db.once("open", () => console.log("Connected to database"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Allow CORS from our client
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    next();
+})
+
 // Routes
 import postRoutes from './routes/posts';
 app.use('/posts', postRoutes);
