@@ -20,7 +20,7 @@ export const verifyGoogleToken = async (token: string): Promise<GoogleUser> => {
       idToken: token,
       audience: CLIENT_ID,
     });
-  
+
     // Make sure the user exists and get the user info
     const payload = ticket.getPayload();
     if (!payload) throw new Error('Invalid token');
@@ -71,4 +71,10 @@ export async function refreshAccessToken(refreshToken: string) {
     if (!userId) throw new Error('Invalid refresh token');
 
     return generateAccessToken(userId);
+}
+
+export async function ifUserExists(email: string) {
+    const user = await User.findOne({ email });
+    if (!user) return false;
+    return true;
 }
