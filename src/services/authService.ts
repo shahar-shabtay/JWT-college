@@ -1,6 +1,38 @@
 import bcrypt from 'bcrypt';
 import User from '../models/users';
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../../utils/jwtUtils';
+import { OAuth2Client } from 'google-auth-library';
+
+const CLIENT_ID = '820021502901-rc6goqvsie6bhuh2f530gralprmjk7ll.apps.googleusercontent.com';
+const client = new OAuth2Client(CLIENT_ID);
+
+interface GoogleUser {
+  email: string;
+  password: string;
+  username: string;
+//   TODO: when we have a profile picture
+//   picture: string;
+}
+
+// Verify Google token and get user info
+export const verifyGoogleToken = async (token: string): Promise<GoogleUser> => {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID,
+    });
+  
+    // Make sure the user exists and get the user info
+    const payload = ticket.getPayload();
+    if (!payload) throw new Error('Invalid token');
+  
+    return {
+        email: payload.email || '',
+        password: payload.sub || '',
+        username: payload.name || '',
+        // TODO: when we have a profile picture
+        // picture: payload.picture || '',
+    };
+};
 
 export async function register(data: { email: string; password: string; username: string }) {
     const { email, password, username } = data;

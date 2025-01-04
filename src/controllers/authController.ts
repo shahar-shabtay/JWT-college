@@ -1,5 +1,26 @@
 import { Request, Response } from 'express';
 import { register, login, refreshAccessToken } from '../services/authService';
+import { verifyGoogleToken } from '../services/authService';
+
+// Auth with Google
+export async function googleAuth (req: Request, res: Response): Promise<void> {
+    try {
+      const { credential } = req.body;
+  
+      if (!credential) {
+        res.status(400).json({ message: 'Credential is required' });
+        return;
+      }
+  
+      const user = await verifyGoogleToken(credential);
+      const userRegister = await register(user);
+  
+      res.status(200).json({ message: 'User authenticated', userRegister });
+    } catch (error) {
+      console.error('Auth Error:', error);
+      res.status(400).json({ message: 'Invalid token' });
+    }
+  };
 
 // User registration
 export async function registerUser(req: Request, res: Response): Promise<void> {
