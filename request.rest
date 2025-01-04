@@ -3,8 +3,8 @@ POST http://localhost:3000/posts
 Content-Type: application/json
 
 {
-    "title": "My First Post",
-    "content": "This is the content of my first post.",
+    "title": "My Second Post",
+    "content": "This is the content of my second post.",
     "owner": "64fe4c2ae7891b6cf7890def"
 }
 
@@ -12,7 +12,7 @@ Content-Type: application/json
 GET http://localhost:3000/posts
 
 ### Get post by ID
-GET http://localhost:3000/posts/675011fbf37579481a85cf0e
+GET http://localhost:3000/posts/676983c5ac27c9ccac30b6b6
 
 ### Update post data
 PUT http://localhost:3000/posts/675011fbf37579481a85cf0e
@@ -43,8 +43,8 @@ Content-Type: application/json
 ### Get all comments
 GET http://localhost:3000/comments
 
-### Get comment by ID
-GET http://localhost:3000/comments/675012e5f37579481a85cf15
+### Get comment by Post ID
+GET http://localhost:3000/comments/post/6751d078131e9d95af40678c
 
 ### Update comment data
 PUT http://localhost:3000/comments/675012e5f37579481a85cf15
