@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import commentController from '../controllers/comments';
+import commentController, { getCommentByPostID } from '../controllers/comments';
 
 /**
 * @swagger
@@ -204,4 +204,6 @@ router.delete("/:id", commentController.delete.bind(commentController));
  *         description: Server error
  */
 
+// Get comments by post ID
+router.get('/comment/:postID', getCommentByPostID); // Use getCommentByPostID explicitly
 export = router;
