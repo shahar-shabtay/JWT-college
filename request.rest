@@ -124,4 +124,5 @@ Content-Type: application/json
     "password": "123",
     "username": "weakuser"
 }
-
+### Like post with post id 
+POST http://localhost:3000/posts/like/6751d078131e9d95af40678c

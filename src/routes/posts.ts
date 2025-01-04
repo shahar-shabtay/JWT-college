@@ -217,4 +217,6 @@ router.delete("/:id", authMiddleware, postController.delete.bind(postController)
  *         description: Server error
  */
 
+router.post('/like/:postId', postController.likePost.bind(postController));
+
 export = router;
