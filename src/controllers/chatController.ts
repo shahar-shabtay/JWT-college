@@ -38,8 +38,7 @@ async function askChatGPT (req: Request, res: Response) {
     
       const response = completion.choices[0].message.content;
     
-      console.log("User:", question);
-      console.log("AI:", response);
+      res.status(200).send({ answer: response });
 }
 
 export { askChatGPT };
