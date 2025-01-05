@@ -46,10 +46,11 @@ async function askChatGPT(req: Request, res: Response) {
       // Check if the error is that we are out of tokens
       if (error instanceof RateLimitError) {
         res.status(429).json({ error: 'Rate limit exceeded. Please wait and try again later.' });
+      } else {
+          // If it's another error, handle it normally
+          res.status(500).json({ error: 'An error occurred while processing your request.' });
       }
   
-      // If it's another error, handle it normally
-      res.status(500).json({ error: 'An error occurred while processing your request.' });
     }
   }  
 
