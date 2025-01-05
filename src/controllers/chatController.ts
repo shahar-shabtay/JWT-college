@@ -4,14 +4,8 @@ import { Request, Response } from 'express';
 
 dotenv.config();
 const baseURL = "https://api.aimlapi.com/v1";
-const systemPrompt = "You are an assistant in a dog adoption center.";
+const systemPrompt = "You are an assistant in a dog adoption center. answer short answers";
 const apiKey = process.env.AI_API_KEY;
-
-// Create an instance of the OpenAI API
-// const openai = new OpenAI({
-//     apiKey: process.env.AI_API_KEY,
-//     dangerouslyAllowBrowser: false,
-// });
 
 const api = new OpenAI({
     apiKey,
@@ -27,7 +21,7 @@ async function askChatGPT (req: Request, res: Response) {
     }
   
     const completion = await api.chat.completions.create({
-        model: "mistralai/Mistral-7B-Instruct-v0.2",
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "system",
@@ -46,23 +40,6 @@ async function askChatGPT (req: Request, res: Response) {
     
       console.log("User:", question);
       console.log("AI:", response);
-
-
-    // try {
-    //   const response = await openai.chat.completions.create({
-    //     model: "gpt-4o-mini",
-    //     messages: [
-    //       { role: "system", content: "You are a helpful assistant." },
-    //       { role: "user", content: question },
-    //     ],
-    //     max_tokens: 150,
-    //   });
-  
-    //   res.json({ answer: response.choices[0].message?.content });
-    // } catch (error) {
-    //   console.error("error:", error);
-    //   res.status(500).json({ error: 'Internal Server Error' });
-    // }
 }
 
 export { askChatGPT };
