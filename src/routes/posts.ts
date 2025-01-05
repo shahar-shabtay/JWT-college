@@ -217,6 +217,8 @@ router.delete("/:id", authMiddleware, postController.delete.bind(postController)
  *         description: Server error
  */
 
+// TODO - add swagger and tests
 router.post('/like/:postId', postController.likePost.bind(postController));
+
 
 export = router;

@@ -44,6 +44,7 @@ class postController extends BaseController<IPost> {
   }
 }
 
+
 const getPostsByOwner = async (req: Request, res: Response) => {
     try {
         const ownerId = req.query.owner;  // Get the owner ID from query params
