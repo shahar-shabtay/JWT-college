@@ -1,6 +1,38 @@
 import bcrypt from 'bcrypt';
 import User from '../models/users';
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../../utils/jwtUtils';
+import { OAuth2Client } from 'google-auth-library';
+
+const CLIENT_ID = '820021502901-rc6goqvsie6bhuh2f530gralprmjk7ll.apps.googleusercontent.com';
+const client = new OAuth2Client(CLIENT_ID);
+
+interface GoogleUser {
+  email: string;
+  password: string;
+  username: string;
+//   TODO: when we have a profile picture
+//   picture: string;
+}
+
+// Verify Google token and get user info
+export const verifyGoogleToken = async (token: string): Promise<GoogleUser> => {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID,
+    });
+
+    // Make sure the user exists and get the user info
+    const payload = ticket.getPayload();
+    if (!payload) throw new Error('Invalid token');
+  
+    return {
+        email: payload.email || '',
+        password: payload.sub || '',
+        username: payload.name || '',
+        // TODO: when we have a profile picture
+        // picture: payload.picture || '',
+    };
+};
 
 export async function register(data: { email: string; password: string; username: string }) {
     const { email, password, username } = data;
@@ -39,4 +71,10 @@ export async function refreshAccessToken(refreshToken: string) {
     if (!userId) throw new Error('Invalid refresh token');
 
     return generateAccessToken(userId);
+}
+
+export async function ifUserExists(email: string) {
+    const user = await User.findOne({ email });
+    if (!user) return false;
+    return true;
 }

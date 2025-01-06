@@ -31,8 +31,6 @@ app.use(
   })
 );
 
-
-
 // Routes
 import postRoutes from './routes/posts';
 app.use('/posts', postRoutes);
@@ -43,9 +41,11 @@ app.use('/comments', commentRoutes);
 import userRoutes from './routes/users';
 app.use('/users', userRoutes);
 
-// Login  
+import chatRoutes from './routes/chat';
+app.use('/chat', chatRoutes);
+
 import authRoutes from './routes/auth'
-app.use(express.json()); // For parsing JSON
-app.use('/auth', authRoutes); // Register the auth routes
+app.use(express.json());
+app.use('/auth', authRoutes);
 
 export default app;

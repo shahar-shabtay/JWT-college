@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { registerUser, loginUser, logoutUser, refreshToken } from '../controllers/authController';
+import { registerUser, loginUser, logoutUser, refreshToken , googleAuth } from '../controllers/authController';
 
 /**
 * @swagger
@@ -125,6 +125,24 @@ router.post('/login', loginUser);
 
 // Logout a user
 router.post('/logout', logoutUser);
+
+/**
+ * @swagger
+ * /auth/google:
+ *   post:
+ *     summary: Register a user using Google
+ *     tags: 
+ *       - Auth
+ *     description: Need to provide the google token in the body
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Login completed successfully
+ */
+
+// Logout a user
+router.post('/google', googleAuth);
 
 /**
  * @swagger

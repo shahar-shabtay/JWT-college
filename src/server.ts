@@ -2,8 +2,6 @@ import app from './app';
 import dotenv from 'dotenv';
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
-import express from 'express';
-import authRoutes from './routes/auth'
 
 const envFile = process.env.ENV_FILE || '.env';
 dotenv.config({ path: envFile });
