@@ -16,7 +16,7 @@ const getCommentByPostID = async (req: Request, res: Response) => {
         const comments = await Comment.find({ postID }).populate('commenter', 'name email'); // Adjust populate fields if needed
 
         if (comments.length === 0) {
-            return res.status(404).json({ message: 'No comments found for this post' }); // No comments found for this post
+            return res.status(201).json([]);
         }
 
         // Return comments as JSON

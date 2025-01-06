@@ -44,7 +44,7 @@ Content-Type: application/json
 GET http://localhost:3000/comments
 
 ### Get comment by Post ID
-GET http://localhost:3000/comments/post/6751d078131e9d95af40678c
+GET http://localhost:3000/comments/comment/677c56995ce8a6387db111a7
 
 ### Update comment data
 PUT http://localhost:3000/comments/675012e5f37579481a85cf15
