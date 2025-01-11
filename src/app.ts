@@ -33,19 +33,19 @@ app.use(
 
 // Routes
 import postRoutes from './routes/posts';
-app.use('/posts', postRoutes);
+app.use('/api/posts', postRoutes);
 
 import commentRoutes from './routes/comments';
-app.use('/comments', commentRoutes);
+app.use('/api/comments', commentRoutes);
 
 import userRoutes from './routes/users';
-app.use('/users', userRoutes);
+app.use('/api/users', userRoutes);
 
 import chatRoutes from './routes/chat';
-app.use('/chat', chatRoutes);
+app.use('/api/chat', chatRoutes);
 
 import authRoutes from './routes/auth'
 app.use(express.json());
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 
 export default app;
