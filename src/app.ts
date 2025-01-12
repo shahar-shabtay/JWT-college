@@ -24,7 +24,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Allow CORS from our client
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: [
+      'http://localhost:5173',  // For local development
+      'http://node71.cs.colman.ac.il',  // For production
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'], 
     credentials: true,
