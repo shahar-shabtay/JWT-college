@@ -68,7 +68,9 @@ export async function login(email: string, password: string) {
 
 export async function refreshAccessToken(refreshToken: string) {
     const userId = verifyRefreshToken(refreshToken);
-    if (!userId) throw new Error('Invalid refresh token');
+    if (!userId || typeof userId !== 'string') {
+        throw new Error('Invalid refresh token');
+    }
 
     return generateAccessToken(userId);
 }
