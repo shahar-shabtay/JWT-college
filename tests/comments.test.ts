@@ -69,12 +69,12 @@ describe("Comments tests", () => {
         expect(response.body.content).toBe("This is the best post ever!");
     });
 
-        // Get comment by post ID
-        it("get a comment by postID", async () => {
-            const postID = "673b7041241ed1b7a603a64b";
-            const response = await request(testApp).get(`/comments/comment/${postID}`);
-            expect(response.status).toBe(200); // OK
-        });
+    // Get comment by post ID
+    it("get a comment by postID", async () => {
+        const postID = "673b7041241ed1b7a603a64b";
+        const response = await request(testApp).get(`/comments/comment/${postID}`);
+        expect(response.status).toBe(200); // OK
+    });
 
     // Update comment data
     it("update comment data", async () => {
