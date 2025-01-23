@@ -13,6 +13,7 @@ interface User {
 
 let registeredUser: User; // Define a strict type for registeredUser
 let accessToken: string;
+let refreshToken: string;
 
 beforeAll(async () => {
   testApp = app;
@@ -46,6 +47,7 @@ beforeAll(async () => {
   });
   expect(response.status).toBe(200);
   accessToken = response.body.accessToken; // Set the shared accessToken
+  refreshToken = response.body.refreshToken; // Set the shared accessToken
   expect(accessToken).toBeDefined();  
 });
 
@@ -85,5 +87,16 @@ describe('Auth API Tests', () => {
     const res = await request(testApp).post("/auth/logout").set("Authorization", `JWT ${accessToken}`);
     expect(res.status).toBe(200);
   });
+
+  test("Test Refresh Token", async () => {
+    const res = await request(testApp)
+        .post("/auth/refresh-token")
+        .send({ refreshToken })
+        .set("Authorization", `JWT ${accessToken}`);
+    
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("accessToken");
+    expect(typeof res.body.accessToken).toBe("string");
+});
 
 });

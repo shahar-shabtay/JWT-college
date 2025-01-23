@@ -146,7 +146,7 @@ router.post('/google', googleAuth);
 
 /**
  * @swagger
- * /auth/refreshToken:
+ * /auth/refresh-token:
  *   post:
  *     summary: Get a new access token using the refresh token
  *     tags: 
