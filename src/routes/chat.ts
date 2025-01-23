@@ -37,19 +37,23 @@ import { askChatGPT } from '../controllers/chatController';
 const router = Router();
 
 /**
-* @swagger
-* /auth/register:
-*   post:
-*     summary: send a question to chatGPT
-*     tags: [Auth]
-*     requestBody:
-*       required: true
-*       content:
-*         application/json:
-*     responses:
-*       200:
-*         description: The answer was generated successfully
-*/
+ * @swagger
+ * /Chat:
+ *   post:
+ *     summary: Send ChatGPT a question
+ *     tags: 
+ *       - Chat
+ *     description: need to provide a question in the request body
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: The access & refresh tokens
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Tokens'
+ */
 
 // Ask a new question to chatGPT
 router.post('/', askChatGPT);
