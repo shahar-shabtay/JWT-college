@@ -81,5 +81,9 @@ describe('Auth API Tests', () => {
     expect(res.status).toBe(200);
   });
 
-  
+  test("Test Logout", async () => {
+    const res = await request(testApp).post("/auth/logout").set("Authorization", `JWT ${accessToken}`);
+    expect(res.status).toBe(200);
+  });
+
 });

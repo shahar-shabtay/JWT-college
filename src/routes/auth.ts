@@ -111,7 +111,7 @@ router.post('/login', loginUser);
 /**
  * @swagger
  * /auth/logout:
- *   get:
+ *   post:
  *     summary: Logout a user
  *     tags: 
  *       - Auth
@@ -141,13 +141,13 @@ router.post('/logout', logoutUser);
  *         description: Login completed successfully
  */
 
-// Logout a user
+// Google Auth
 router.post('/google', googleAuth);
 
 /**
  * @swagger
  * /auth/refreshToken:
- *   get:
+ *   post:
  *     summary: Get a new access token using the refresh token
  *     tags: 
  *       - Auth
