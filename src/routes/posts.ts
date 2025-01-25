@@ -2,6 +2,8 @@ import express from 'express';
 const router = express.Router();
 import  postController , { getPostsByOwner } from '../controllers/posts';
 import authMiddleware from '../common/auth_middleware';
+import { likePost, unlikePost } from '../controllers/posts';
+
 
 // Add a new post
 router.post('/',authMiddleware, postController.post.bind(postController));
@@ -216,5 +218,9 @@ router.delete("/:id", authMiddleware, postController.delete.bind(postController)
  *       500:
  *         description: Server error
  */
+
+// Define routes for liking and unliking posts
+router.post('/:id/like', likePost); // Like a post
+router.post('/:id/unlike', unlikePost); // Unlike a post
 
 export = router;
