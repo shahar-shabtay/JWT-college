@@ -84,24 +84,34 @@ const getPostsByOwner = async (req: Request, res: Response) => {
       const userName  = req.body.userName;
       console.log("this is username", userName)
       console.log("this is postID", postId)
+
+      if (!userName) {
+        return res.status(400).json({ message: 'UserName is required' });
+      }
   
       const post = await Post.findById(postId);
       if (!post) {
         return res.status(404).json({ message: 'Post not found' });
       }
   
-      const alreadyLiked = post.usersWhoLiked.includes(userName);
-      if (alreadyLiked) {
-        post.usersWhoLiked = post.usersWhoLiked.filter((name) => name !== userName);
-      } else {
-        post.usersWhoLiked.push(userName);
-      }
-  
-      await post.save();
-      return res.status(200).json({ message: 'Post updated', usersWhoLiked: post.usersWhoLiked });
+        // Remove null values from usersWhoLiked
+        post.usersWhoLiked = post.usersWhoLiked.filter(Boolean);
+
+        // Handle adding or removing the username
+        const alreadyLiked = post.usersWhoLiked.includes(userName);
+        if (alreadyLiked) {
+            post.usersWhoLiked = post.usersWhoLiked.filter((name) => name !== userName);
+        } else {
+            post.usersWhoLiked.push(userName);
+        }
+
+        // Save the document
+        await post.save({ validateModifiedOnly: true });
+
+        return res.status(200).json({ message: 'Post updated', usersWhoLiked: post.usersWhoLiked });
     } catch (error) {
-      console.error('Error in likePost:', error);
-      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+        console.error('Error in likePost:', error);
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
   };
   
