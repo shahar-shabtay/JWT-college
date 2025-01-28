@@ -42,86 +42,100 @@ const getPostsByOwner = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Server error' });  // Handle server errors
     }
 };
-// Utility function to extract user ID from the Authorization token
-const getUserIdFromToken = (req: Request): string | null => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('JWT ')) return null;
+// // Utility function to extract user ID from the Authorization token
+// const getUserIdFromToken = (req: Request): string | null => {
+//     const authHeader = req.headers.authorization;
 
-    const token = authHeader.split(' ')[1];
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || '');
-        return (decoded as { id: string }).id;
-    } catch {
-        return null;
-    }
-};
+//     if (!authHeader) {
+//         console.error('Authorization header is missing');
+//         return null;
+//     }
+
+//     if (!authHeader.startsWith('Bearer ')) {
+//         console.error('Authorization header format is invalid');
+//         return null;
+//     }
+
+//     const token = authHeader.split(' ')[1];
+
+//     if (!token) {
+//         console.error('Token is missing');
+//         return null;
+//     }
+
+//     try {
+//         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || '');
+//         if (typeof decodedToken === 'object' && 'id' in decodedToken) {
+//             return (decodedToken as { id: string }).id;
+//         } else {
+//             console.error('Decoded token does not contain an ID');
+//             return null;
+//         }
+//     } catch (error) {
+//         console.error('Token verification failed:', error);
+//         return null;
+//     }
+// };
 
 // Like a post
-export const likePost = async (req: Request, res: Response) => {
-    const postId = req.params.id;
-    const userId = getUserIdFromToken(req);
-
-    if (!userId) {
-        return res.status(401).json({ message: 'Unauthorized: Invalid or missing token' });
-    }
-
+  const likePost = async (req: Request, res: Response) => {
     try {
-        const post = await Post.findById(postId);
-        if (!post) {
-            return res.status(404).json({ message: 'Post not found' });
-        }
-
-        // Convert userId to ObjectId using Schema.Types.ObjectId
-        const userIdObject = new mongoose.Schema.Types.ObjectId(userId);
-
-        if (post.usersWhoLiked.some((id) => id.toString() === userIdObject.toString())) {
-            return res.status(400).json({ message: 'You have already liked this post' });
-        }
-
-        post.usersWhoLiked.push(userIdObject); // Push the ObjectId
-        await post.save();
-
-        res.status(200).json({ message: 'Post liked successfully', post });
-    } catch (err) {
-        console.error('Error liking post:', err);
-        res.status(500).json({ message: 'An error occurred while liking the post' });
+      const postId  = req.params.id;
+      const userName  = req.body.userName;
+      console.log("this is username", userName)
+      console.log("this is postID", postId)
+  
+      const post = await Post.findById(postId);
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+  
+      const alreadyLiked = post.usersWhoLiked.includes(userName);
+      if (alreadyLiked) {
+        post.usersWhoLiked = post.usersWhoLiked.filter((name) => name !== userName);
+      } else {
+        post.usersWhoLiked.push(userName);
+      }
+  
+      await post.save();
+      return res.status(200).json({ message: 'Post updated', usersWhoLiked: post.usersWhoLiked });
+    } catch (error) {
+      console.error('Error in likePost:', error);
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
-};
+  };
+  
+// // Unlike a post
+// export const unlikePost = async (req: Request, res: Response) => {
+//     const { id: postId } = req.params; // Post ID from URL parameters
+//     const { userName } = req.body; // Username from the request body
 
-// Unlike a post
-export const unlikePost = async (req: Request, res: Response) => {
-    const postId = req.params.id;
-    const userId = getUserIdFromToken(req);
+//     if (!userName) {
+//         return res.status(400).json({ message: 'Username is required to unlike a post' });
+//     }
 
-    if (!userId) {
-        return res.status(401).json({ message: 'Unauthorized: Invalid or missing token' });
-    }
+//     try {
+//         const post = await Post.findById(postId);
+//         if (!post) {
+//             return res.status(404).json({ message: 'Post not found' });
+//         }
 
-    try {
-        const post = await Post.findById(postId);
-        if (!post) {
-            return res.status(404).json({ message: 'Post not found' });
-        }
+//         if (!post.usersWhoLiked.includes(userName)) {
+//             return res.status(400).json({ message: 'You have not liked this post' });
+//         }
 
-        // Convert userId to ObjectId using Schema.Types.ObjectId
-        const userIdObject = new mongoose.Schema.Types.ObjectId(userId);
+//         post.usersWhoLiked = post.usersWhoLiked.filter((like) => like !== userName); // Remove the username
+//         await post.save();
 
-        if (!post.usersWhoLiked.some((id) => id.toString() === userIdObject.toString())) {
-            return res.status(400).json({ message: 'You have not liked this post' });
-        }
+//         res.status(200).json({ message: 'Post unliked successfully', post });
+//     } catch (err) {
+//         console.error('Error unliking post:', err);
+//         res.status(500).json({ message: 'An error occurred while unliking the post' });
+//     }
+// };
 
-        post.usersWhoLiked = post.usersWhoLiked.filter(
-            (id) => id.toString() !== userIdObject.toString()
-        );
-        await post.save();
-
-        res.status(200).json({ message: 'Post unliked successfully', post });
-    } catch (err) {
-        console.error('Error unliking post:', err);
-        res.status(500).json({ message: 'An error occurred while unliking the post' });
-    }
-};
 
 
 export default new postController(Post);
 export { getPostsByOwner };
+export {likePost};

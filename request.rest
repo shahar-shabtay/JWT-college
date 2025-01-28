@@ -140,3 +140,11 @@ Content-Type: application/json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzU3MTUyMWUzNTU5N2E3OTQ5NjViMjQiLCJpYXQiOjE3Mzc2NDczNzEsImV4cCI6MTczODI1MjE3MX0._kzP4fvzZ_IfEzSUVPXd5JL4PmeIBqxMWXO-8GR8UJQ"
 }
+
+### Like
+PUT http://localhost:3000/posts/6772affc2ae1c14b2a9023ba/like
+Content-Type: application/json
+
+{
+    "userName": "weakuser"
+}

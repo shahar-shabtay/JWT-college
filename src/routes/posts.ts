@@ -1,8 +1,8 @@
 import express from 'express';
 const router = express.Router();
-import  postController , { getPostsByOwner } from '../controllers/posts';
+import  postController , { getPostsByOwner, likePost } from '../controllers/posts';
+//unlikePost
 import authMiddleware from '../common/auth_middleware';
-import { likePost, unlikePost } from '../controllers/posts';
 
 
 // Add a new post
@@ -220,7 +220,11 @@ router.delete("/:id", authMiddleware, postController.delete.bind(postController)
  */
 
 // Define routes for liking and unliking posts
-router.post('/:id/like', likePost); // Like a post
-router.post('/:id/unlike', unlikePost); // Unlike a post
+// Like a post
+router.put('/:id/like', likePost);
+// router.get('/likes', postController.getLikes);
+
+// Unlike a post
+// router.put('/:id/unlike', authMiddleware, unlikePost);
 
 export = router;
