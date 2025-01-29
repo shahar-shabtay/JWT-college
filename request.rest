@@ -160,3 +160,6 @@ Content-Type: application/json
 
 ### Get likes 
 GET http://localhost:3000/posts/6772affc2ae1c14b2a9023ba/likes
+
+### Get user specific like
+GET http://localhost:3000/posts/6772affc2ae1c14b2a9023ba/likes?userName=testshahar
