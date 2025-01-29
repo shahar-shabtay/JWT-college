@@ -1,7 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import  postController , { getPostsByOwner, likePost } from '../controllers/posts';
-//unlikePost
+import  postController , { getPostsByOwner, likePost, unlikePost, getLikes } from '../controllers/posts';
 import authMiddleware from '../common/auth_middleware';
 
 
@@ -16,6 +15,9 @@ router.get("/:id", postController.get.bind(postController));
 
 // Get Posts by Owner
 router.get('/posts', getPostsByOwner);
+
+// Get likes for all posts
+router.get('/:postId/likes', getLikes);
 
 // Update post data by id
 router.put('/:id', authMiddleware, postController.update.bind(postController));
@@ -225,6 +227,6 @@ router.put('/:id/like', likePost);
 // router.get('/likes', postController.getLikes);
 
 // Unlike a post
-// router.put('/:id/unlike', authMiddleware, unlikePost);
+router.put('/:id/unlike', unlikePost);
 
 export = router;

@@ -7,6 +7,7 @@ export interface IPost extends Document {
     owner: mongoose.Schema.Types.ObjectId;
     // usersWhoLiked: mongoose.Schema.Types.ObjectId[]; // Array to store IDs of users
     usersWhoLiked: string[];
+    likes: number;
 }
 
 // Define the schema
@@ -16,7 +17,7 @@ const postSchema = new mongoose.Schema<IPost>(
         content: { type: String, required: true },
         owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Links to a User
         usersWhoLiked: [{ type: String }], // Array of usernames
-
+        likes: { type: Number, default: 0 }, // Field for total likes
     },
     { timestamps: true } // Automatically adds `createdAt` and `updatedAt` fields
 );

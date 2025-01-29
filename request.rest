@@ -148,3 +148,15 @@ Content-Type: application/json
 {
     "userName": "test2user"
 }
+
+
+### Unlike
+PUT http://localhost:3000/posts/6772affc2ae1c14b2a9023ba/like
+Content-Type: application/json
+
+{
+    "userName": "test2user"
+}
+
+### Get likes 
+GET http://localhost:3000/posts/6772affc2ae1c14b2a9023ba/likes

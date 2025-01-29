@@ -42,40 +42,27 @@ const getPostsByOwner = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Server error' });  // Handle server errors
     }
 };
-// // Utility function to extract user ID from the Authorization token
-// const getUserIdFromToken = (req: Request): string | null => {
-//     const authHeader = req.headers.authorization;
 
-//     if (!authHeader) {
-//         console.error('Authorization header is missing');
-//         return null;
-//     }
+  const getLikes = async (req, res) => {
+    try {
+        const postId = req.params.postId; // Get the postId from the URL parameters
+        
+        // Fetch the specific post by its ID and retrieve only the 'likes' field
+        const post = await Post.findById(postId, 'likes');
+        console.log("This is postID-", postId);
+        
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+        
+        // Return the likes for the specific post
+        res.json({ likes: post.likes });
+    } catch (error) {
+        console.error('Error fetching likes:', error);
+        res.status(500).json({ message: 'Server error fetching likes' });
+    }
+  };
 
-//     if (!authHeader.startsWith('Bearer ')) {
-//         console.error('Authorization header format is invalid');
-//         return null;
-//     }
-
-//     const token = authHeader.split(' ')[1];
-
-//     if (!token) {
-//         console.error('Token is missing');
-//         return null;
-//     }
-
-//     try {
-//         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || '');
-//         if (typeof decodedToken === 'object' && 'id' in decodedToken) {
-//             return (decodedToken as { id: string }).id;
-//         } else {
-//             console.error('Decoded token does not contain an ID');
-//             return null;
-//         }
-//     } catch (error) {
-//         console.error('Token verification failed:', error);
-//         return null;
-//     }
-// };
 
 // Like a post
   const likePost = async (req: Request, res: Response) => {
@@ -101,8 +88,10 @@ const getPostsByOwner = async (req: Request, res: Response) => {
         const alreadyLiked = post.usersWhoLiked.includes(userName);
         if (alreadyLiked) {
             post.usersWhoLiked = post.usersWhoLiked.filter((name) => name !== userName);
+            post.likes -= 1; // Decrement the likes count
         } else {
             post.usersWhoLiked.push(userName);
+            post.likes += 1; // Increment the likes count
         }
 
         // Save the document
@@ -114,38 +103,43 @@ const getPostsByOwner = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
   };
-  
-// // Unlike a post
-// export const unlikePost = async (req: Request, res: Response) => {
-//     const { id: postId } = req.params; // Post ID from URL parameters
-//     const { userName } = req.body; // Username from the request body
+  const unlikePost = async (req: Request, res: Response) => {
+    try {
+        const postId = req.params.id;
+        const userName = req.body.userName;
 
-//     if (!userName) {
-//         return res.status(400).json({ message: 'Username is required to unlike a post' });
-//     }
+        console.log("this is username to unlike", userName);
+        console.log("this is postID to unlike", postId);
 
-//     try {
-//         const post = await Post.findById(postId);
-//         if (!post) {
-//             return res.status(404).json({ message: 'Post not found' });
-//         }
+        if (!userName) {
+            return res.status(400).json({ message: 'UserName is required' });
+        }
 
-//         if (!post.usersWhoLiked.includes(userName)) {
-//             return res.status(400).json({ message: 'You have not liked this post' });
-//         }
+        const post = await Post.findById(postId);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
 
-//         post.usersWhoLiked = post.usersWhoLiked.filter((like) => like !== userName); // Remove the username
-//         await post.save();
+        if (!post.usersWhoLiked.includes(userName)) {
+            return res.status(400).json({ message: 'You have not liked this post' });
+        }
 
-//         res.status(200).json({ message: 'Post unliked successfully', post });
-//     } catch (err) {
-//         console.error('Error unliking post:', err);
-//         res.status(500).json({ message: 'An error occurred while unliking the post' });
-//     }
-// };
+        // Remove the username
+        post.usersWhoLiked = post.usersWhoLiked.filter((like) => like !== userName);
+        post.likes -= 1; // Decrement the likes count
+        // Save the document, validate only modified fields
+        await post.save({ validateModifiedOnly: true });
+
+        res.status(200).json({ message: 'Post unliked successfully', usersWhoLiked: post.usersWhoLiked });
+    } catch (err) {
+        console.error('Error unliking post:', err);
+        res.status(500).json({ message: 'An error occurred while unliking the post', error: err.message });
+    }
+  };
+
 
 
 
 export default new postController(Post);
 export { getPostsByOwner };
-export {likePost};
+export {likePost, unlikePost, getLikes};
