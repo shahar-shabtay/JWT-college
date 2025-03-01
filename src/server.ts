@@ -2,6 +2,9 @@ import app from './app';
 import dotenv from 'dotenv';
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
+import https from 'https';
+import http from 'http';
+import fs from 'fs';
 
 const envFile = process.env.ENV_FILE || '.env';
 dotenv.config({ path: envFile });
@@ -10,7 +13,7 @@ dotenv.config({ path: envFile });
 const port: string = process.env.PORT || "3000";
 
 // Swagger setup
-const options = {
+const swagger_options = {
   definition: {
     openapi: "3.0.0",
     info: {
@@ -23,8 +26,20 @@ const options = {
   apis: ["./src/routes/*.ts"], 
 };
 
-const specs = swaggerJsDoc(options);
+const specs = swaggerJsDoc(swagger_options);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+
+if(process.env.NODE_ENV !== 'production') {
+  console.log('development mode');
+  http.createServer(app).listen(port)
+} else {
+  const options = {
+    key: fs.readFileSync('./client-key.pem'),
+    cert: fs.readFileSync('./client-cert.pem')
+  }
+  https.createServer(options, app).listen(port)
+}
+
 
 // Start the server
 app.listen(port, () => {
