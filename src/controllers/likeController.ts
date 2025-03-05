@@ -88,4 +88,26 @@ const validateLike = async (postId: string, userId: string): Promise<boolean> =>
     }
 };
 
-export default { createLike, deleteLike, getLikeByOwner };
+const getLikesByPostID = async (req: Request, res: Response) => {
+    try {
+        const postID = req.params.postID; // Get the post ID from URL params
+
+        if (!postID) {
+            return res.status(400).json({ error: 'Post ID is required' }); // Return an error if post ID is missing
+        }
+
+        // Find comments by post ID
+        const likes = await postModel.findById(postID).select('likes'); 
+
+        // Return comments as JSON
+        console.log(likes);
+        res.status(200).json(likes);
+        
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' }); // Handle server errors
+    }
+};
+
+export default { createLike, deleteLike, getLikeByOwner , getLikesByPostID};
