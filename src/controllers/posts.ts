@@ -55,15 +55,13 @@ const getPostsByOwner = async (req: Request, res: Response) => {
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-        // Ensure usersWhoLiked is always an array
-        const usersWhoLiked = post.usersWhoLiked || [];
 
         // Check if the user has already liked the post
-        const userHasLiked = usersWhoLiked.includes(userName);
+        const userHasLiked = post.usersWhoLiked.includes(userName);
 
         res.json({ 
             likes: post.likes, 
-            userHasLiked 
+            userHasLiked // Send back if user liked the post
         });
 
         // Return the likes for the specific post
