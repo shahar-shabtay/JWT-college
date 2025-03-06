@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-import likeModel from "../models/likes";
+import likesModel from "../models/likes";
 import postModel from "../models/posts";
 import userModel from "../models/users";
-
 
 // Create Like
 const createLike = async (req: Request, res: Response) => {
@@ -18,7 +17,7 @@ const createLike = async (req: Request, res: Response) => {
     }
 
     try {
-        const likeObject = await likeModel.create({
+        const likeObject = await likesModel.create({
             owner: userId,
             postId: postId
         });
@@ -33,7 +32,8 @@ const createLike = async (req: Request, res: Response) => {
 
 // Delete Like
 const deleteLike = async (req: Request, res: Response) => {
-    const { postId, userId } = req.params;
+    const postId = req.params.postId;
+    const userId = req['user']._id;
 
     // Validate Post and User
     const isValid = await validateLike(postId, userId);
@@ -43,7 +43,7 @@ const deleteLike = async (req: Request, res: Response) => {
     }
 
     try {
-        const deletedLikeObject = await likeModel.findOneAndDelete({ postId: postId, owner: userId });
+        const deletedLikeObject = await likesModel.findOneAndDelete({ postId: postId, owner: userId });
         if (!deletedLikeObject) {
             res.status(404).send({ message: "Like not found or unauthorized" });
             return;
@@ -63,7 +63,7 @@ const getLikeByOwner = async (req: Request, res: Response) => {
     const { userId, postId } = req.params;
 
     try {
-        const like = await likeModel.findOne({ owner: userId, postId: postId });
+        const like = await likesModel.findOne({ owner: userId, postId: postId });
 
         if (like) {
             res.status(200).send({ liked: true });
