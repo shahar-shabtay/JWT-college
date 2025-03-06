@@ -110,4 +110,4 @@ const getLikesByPostID = async (req: Request, res: Response) => {
     }
 };
 
-export default { createLike, deleteLike, getLikeByOwner , getLikesByPostID};
+export default { createLike, deleteLike, getLikeByOwner, getLikesByPostID };
