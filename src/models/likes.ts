@@ -19,6 +19,6 @@ const likesSchema = new mongoose.Schema<ILike>(
   { timestamps: true }
 );
 
-const commentsModel = mongoose.model<ILike>("likes", likesSchema);
+const likesModel = mongoose.model<ILike>("likes", likesSchema);
 
-export default commentsModel;
+export default likesModel;
