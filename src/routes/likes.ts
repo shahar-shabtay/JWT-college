@@ -126,7 +126,7 @@ router.delete("/:postId", authMiddleware, likesController.deleteLike);
 router.get("/:postId/:userId", likesController.getLikeByOwner);
 
 // Get Likes by post ID
-router.get('/like/:postID', likesController.getLikesByPostID); // Use getCommentByPostID explicitly
+router.get('/likesCount/:postID', likesController.getLikesByPostID); // Use getCommentByPostID explicitly
 
 
 export default router;

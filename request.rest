@@ -143,3 +143,6 @@ Content-Type: application/json
 
 ### Like a post
 GET http://localhost:3000/likes/6751d078131e9d95af40678c/679760c511da5bbc411985e7
+
+### Get likes by post ID
+GET http://localhost:3000/likes/likesCount/6751d078131e9d95af40678c

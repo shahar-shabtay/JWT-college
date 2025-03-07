@@ -7,7 +7,6 @@ import userModel from "../models/users";
 const createLike = async (req: Request, res: Response) => {
     const postId = req.body.postId;
     const userId = req['user']._id
-    console.log(postId, userId);
 
     // Validate Post and User
     const isValid = await validateLike(postId, userId);
@@ -96,12 +95,13 @@ const getLikesByPostID = async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Post ID is required' }); // Return an error if post ID is missing
         }
 
-        // Find comments by post ID
-        const likes = await postModel.findById(postID).select('likes'); 
+        // Find likes by post ID
+        const likes = await postModel.findById(postID).select('likesCount'); 
+        console.log(`Fetched from DB:`, likes);
 
-        // Return comments as JSON
-        console.log(likes);
-        res.status(200).json(likes);
+        // Return likes as JSON
+        console.log(`Likes Count: ${likes.likesCount}`);
+        res.status(200).json({LikesCount: likes.likesCount});
         
 
     } catch (error) {
