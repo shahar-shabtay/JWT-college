@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 import Post from "../src/models/posts";
 import { Express } from "express";
 import User, { IUser } from "../src/models/users";
-// import exp from "constants";
 
 const user: IUser = {
     email: "newuser@example.com",

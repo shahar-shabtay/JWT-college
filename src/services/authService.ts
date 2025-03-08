@@ -53,11 +53,11 @@ export async function register(data: { email: string; password: string; username
 
 export async function login(email: string, password: string) {
     const user = await User.findOne({ email });
-    if (!user) throw new Error('Invalid email or password');
+    if (!user) throw new Error('Invalid email, user not found');
 
     // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new Error('Invalid email or password');
+    if (!isMatch) throw new Error('Password is incorrect');
 
     // Generate tokens
     const accessToken = generateAccessToken(user.id);
@@ -68,7 +68,9 @@ export async function login(email: string, password: string) {
 
 export async function refreshAccessToken(refreshToken: string) {
     const userId = verifyRefreshToken(refreshToken);
-    if (!userId) throw new Error('Invalid refresh token');
+    if (!userId || typeof userId !== 'string') {
+        throw new Error('Invalid refresh token');
+    }
 
     return generateAccessToken(userId);
 }

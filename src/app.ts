@@ -35,6 +35,15 @@ app.use(
   })
 );
 
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000',
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type', 'Authorization'], 
+//     credentials: true,
+//   })
+// );
+
 // Routes
 import postRoutes from './routes/posts';
 app.use('/api/posts', postRoutes);
@@ -51,5 +60,8 @@ app.use('/api/chat', chatRoutes);
 import authRoutes from './routes/auth'
 app.use(express.json());
 app.use('/api/auth', authRoutes);
+
+import likeRoute from './routes/likes'
+app.use('/likes', likeRoute);
 
 export default app;
