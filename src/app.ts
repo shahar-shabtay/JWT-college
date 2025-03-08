@@ -26,7 +26,8 @@ app.use(
   cors({
     origin: [
       'http://localhost:5173',  // For local development
-      'http://node71.cs.colman.ac.il',  // For production
+      'https://node71.cs.colman.ac.il',  // For production
+      'https://193.106.55.231',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'], 
