@@ -1,7 +1,8 @@
 
 # copy the certificates to right path:
-cp ../client-cert.pem ./nginx/
-cp ../client-key.pem ./nginx/
+cp ../client-cert.pem ./
+cp ../client-key.pem ./
+cp ../.env.prod ./
 
 # Run the container
 docker build -t back ./
