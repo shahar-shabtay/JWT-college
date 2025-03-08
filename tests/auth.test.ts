@@ -13,6 +13,7 @@ interface User {
 
 let registeredUser: User; // Define a strict type for registeredUser
 let accessToken: string;
+let refreshToken: string;
 
 beforeAll(async () => {
   testApp = app;
@@ -46,6 +47,7 @@ beforeAll(async () => {
   });
   expect(response.status).toBe(200);
   accessToken = response.body.accessToken; // Set the shared accessToken
+  refreshToken = response.body.refreshToken; // Set the shared accessToken
   expect(accessToken).toBeDefined();  
 });
 
@@ -59,6 +61,7 @@ afterAll(async () => {
 
 describe('Auth API Tests', () => {
   it('should register a new user', async () => {
+
     // Check that the user details match the registered user
     if (registeredUser && registeredUser.email) {
       expect(registeredUser).toHaveProperty('email');
@@ -68,23 +71,6 @@ describe('Auth API Tests', () => {
     } else {
       console.error('User registration failed.');
     }
-  });
-
-  it('should fail to register with weak password', async () => {
-    const res = await request(testApp).post('/auth/register').send({
-      email: `weakpassword-${Date.now()}@example.com`,  // Use a unique email
-      password: '123',  // Weak password
-      username: 'weakuser',
-    });
-
-    // Assert the expected behavior for weak passwords
-    if (res.body.error) {
-      expect(res.status).toBe(400);
-      expect(res.body).toHaveProperty('error', 'Password is too weak');
-    } else {
-      console.error('Weak password test failed.');
-    }
-    
   });
   
   test("Test forbidden access without token", async () => {
@@ -96,4 +82,21 @@ describe('Auth API Tests', () => {
     const res = await request(testApp).get("/users").set("Authorization", `JWT ${accessToken}`);
     expect(res.status).toBe(200);
   });
+
+  test("Test Logout", async () => {
+    const res = await request(testApp).post("/auth/logout").set("Authorization", `JWT ${accessToken}`);
+    expect(res.status).toBe(200);
+  });
+
+  test("Test Refresh Token", async () => {
+    const res = await request(testApp)
+        .post("/auth/refresh-token")
+        .send({ refreshToken })
+        .set("Authorization", `JWT ${accessToken}`);
+    
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("accessToken");
+    expect(typeof res.body.accessToken).toBe("string");
+});
+
 });

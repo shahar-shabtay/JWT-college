@@ -7,6 +7,7 @@ export interface IPost extends Document {
     owner: mongoose.Schema.Types.ObjectId;
 }
 
+// Define the schema
 const postSchema = new mongoose.Schema<IPost>(
     {
         title: { type: String, required: true },

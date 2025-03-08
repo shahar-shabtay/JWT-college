@@ -60,7 +60,7 @@ export async function logoutUser(req: Request, res: Response): Promise<void> {
 // Refresh token
 export async function refreshToken(req: Request, res: Response): Promise<void> {
     try {
-        const { refreshToken } = req.body;
+        const refreshToken = req.body.token;
         const newAccessToken = await refreshAccessToken(refreshToken);
         res.status(200).json({ accessToken: newAccessToken });
     } catch (error) {

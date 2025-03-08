@@ -4,12 +4,12 @@
     "description": "",
     "main": "app.js",
     "scripts": {
-        "test": "tsc && cross-env ENV_FILE=.env.local jest --detectOpenHandles --forceExit",
+        "test": "tsc && cross-env ENV_FILE=.env.local jest --detectOpenHandles --forceExit --coverage",
         "testPost": "tsc && cross-env ENV_FILE=.env.local jest --detectOpenHandles --forceExit ./tests/posts.test.ts",
         "dev": "nodemon app.js",
         "lint": "eslint . --ext .ts",
         "start:local": "tsc && cross-env ENV_FILE=.env.local node dist/src/server.js",
-        "start:prod": "tsc && cross-env ENV_FILE=.env.prod node dist/src/server.js"
+        "start:prod": "tsc -p tsconfig_prod.json && cross-env ENV_FILE=.env.prod node dist/src/server.js"
     },
     "author": "Shahar & Yuval",
     "license": "ISC",

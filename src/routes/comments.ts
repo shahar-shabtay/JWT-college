@@ -9,14 +9,12 @@ import commentController, { getCommentByPostID } from '../controllers/comments';
 *   description: The Comments API
 */
 
-// Add a new comment
-router.post('/', commentController.post.bind(commentController));
 
 /**
  * @swagger
  * /comments:
- *   post:
- *     summary: Add a new comment
+ *   get:
+ *     summary: Get all comments
  *     tags: [Comments]
  *     requestBody:
  *       required: true
@@ -57,9 +55,8 @@ router.post('/', commentController.post.bind(commentController));
  *       500:
  *         description: Server error
  */
-
-// Get all comments
-router.get('/', commentController.getAll.bind(commentController));
+// Add a new comment
+router.post('/', commentController.post.bind(commentController));
 
 /**
  * @swagger
@@ -94,9 +91,8 @@ router.get('/', commentController.getAll.bind(commentController));
  *       400:
  *         description: Bad request
  */
-
-// Get a comment by id
-router.get("/:id", commentController.get.bind(commentController));
+// Get all comments
+router.get('/', commentController.getAll.bind(commentController));
 
 /**
  * @swagger
@@ -130,9 +126,8 @@ router.get("/:id", commentController.get.bind(commentController));
  *       404:
  *         description: Comment not found
  */
-
-// Update comment data by id
-router.put('/:id', commentController.update.bind(commentController));
+// Get a comment by id
+router.get("/:id", commentController.get.bind(commentController));
 
 /**
  * @swagger
@@ -178,9 +173,8 @@ router.put('/:id', commentController.update.bind(commentController));
  *       500:
  *         description: Server error
  */
-
-// Delete Comment by ID
-router.delete("/:id", commentController.delete.bind(commentController));
+// Update comment data by id
+router.put('/:id', commentController.update.bind(commentController));
 
 /**
  * @swagger
@@ -203,7 +197,23 @@ router.delete("/:id", commentController.delete.bind(commentController));
  *       500:
  *         description: Server error
  */
+// Delete Comment by ID
+router.delete("/:id", commentController.delete.bind(commentController));
 
+/**
+ * @swagger
+ * /comments/comment/{postID}:
+ *   get:
+ *     summary: Get comments by post ID
+ *     tags: [Comments]
+ *     parameters:
+ *     - in: path
+ *       name: postID
+ *       required: true
+ *     responses:
+ *       200:
+ *         description: List of comments
+ */
 // Get comments by post ID
 router.get('/comment/:postID', getCommentByPostID); // Use getCommentByPostID explicitly
 export = router;
