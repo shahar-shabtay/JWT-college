@@ -60,4 +60,13 @@ app.use('/auth', authRoutes);
 import likeRoute from './routes/likes'
 app.use('/likes', likeRoute);
 
+import filesRoute from './routes/files'
+app.use('/file', filesRoute);
+
+// import path from "path";
+
+// // Serve static files from the "public" directory
+// app.use('/public', express.static(path.join(__dirname, 'public')));
+
+
 export default app;

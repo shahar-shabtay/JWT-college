@@ -6,12 +6,13 @@
     "scripts": {
         "test": "tsc && cross-env ENV_FILE=.env.local jest --detectOpenHandles --forceExit --coverage",
         "testPost": "tsc && cross-env ENV_FILE=.env.local jest --detectOpenHandles --forceExit ./tests/posts.test.ts",
+        "testFiles": "tsc && cross-env ENV_FILE=.env.local jest --detectOpenHandles --forceExit ./tests/files.test.ts",
         "dev": "nodemon app.js",
         "lint": "eslint . --ext .ts",
         "start:local": "tsc && cross-env ENV_FILE=.env.local node dist/src/server.js",
         "start:prod": "tsc && cross-env ENV_FILE=.env.prod node dist/src/server.js"
     },
-    "author": "Shahar & Yuval",
+    "author": "Shahar & Yuval ",
     "license": "ISC",
     "dependencies": {
         "@types/cors": "^2.8.17",
@@ -23,6 +24,7 @@
         "google-auth-library": "^9.15.0",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.8.1",
+        "multer": "^1.4.5-lts.1",
         "openai": "^4.77.3"
     },
     "devDependencies": {
@@ -30,6 +32,7 @@
         "@types/express": "^4.17.1",
         "@types/jest": "^29.5.14",
         "@types/jsonwebtoken": "^9.0.7",
+        "@types/multer": "^1.4.12",
         "@types/node": "^22.10.1",
         "@types/supertest": "^6.0.2",
         "cross-env": "^7.0.3",
