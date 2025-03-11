@@ -18,7 +18,7 @@ describe("File upload tests", () => {
     test("upload file", async () => {
         const filePath = `${__dirname}/wusha.jpg`;
         console.log(filePath);
-        // try {
+        try {
           const response = await request(testApp)
             .post("/file?file=wusha.jpg").attach('file', filePath)
           expect(response.statusCode).toEqual(200);
@@ -28,9 +28,9 @@ describe("File upload tests", () => {
           console.log(url);
           const res = await request(testApp).get(url)
           expect(res.statusCode).toEqual(200);
-        // } catch (err) {
-        //   console.log(err);
-        //   expect(1).toEqual(2);
-        // }
+        } catch (err) {
+          console.log(err);
+          expect(1).toEqual(2);
+        }
       });
 });
