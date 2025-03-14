@@ -49,7 +49,8 @@ describe("Posts tests", () => {
         const newPost = {
             title: "My First Post",
             content: "This is the content of my first post.",
-            owner: "123"
+            owner: "123",
+            imageUrl: "https://example.com/image.jpg"
         };
 
         const response = (await request(testApp).post("/posts").set("Authorization", `JWT ${accessToken}`).send(newPost));

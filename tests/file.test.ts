@@ -22,7 +22,7 @@ describe("File upload tests", () => {
           const response = await request(testApp)
             .post("/file?file=wusha.jpg").attach('file', filePath)
           expect(response.statusCode).toEqual(200);
-          let url = response.body.url;
+          let url = response.body.imageUrl;
           console.log(url);
           url = url.replace(/^.*\/\/[^/]+/, '');
           console.log(url);

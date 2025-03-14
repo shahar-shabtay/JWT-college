@@ -11,7 +11,7 @@ interface User {
   username: string;
 }
 
-let registeredUser: User; // Define a strict type for registeredUser
+let registeredUser: User;
 let accessToken: string;
 let refreshToken: string;
 
@@ -89,14 +89,15 @@ describe('Auth API Tests', () => {
   });
 
   test("Test Refresh Token", async () => {
+    console.log("Refresh Token: ", refreshToken);
+    console.log("Access Token: ", accessToken);
     const res = await request(testApp)
         .post("/auth/refresh-token")
-        .send({ refreshToken })
+        .send({ token: refreshToken })
         .set("Authorization", `JWT ${accessToken}`);
     
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty("accessToken");
     expect(typeof res.body.accessToken).toBe("string");
-});
-
+  });
 });

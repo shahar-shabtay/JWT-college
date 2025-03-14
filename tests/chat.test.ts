@@ -40,7 +40,7 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-describe("Posts tests", () => {
+describe("Chat tests", () => {
 
     // Create a new post
     it("Send chat a question", async () => {
