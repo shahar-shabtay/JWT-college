@@ -10,7 +10,7 @@ class postController extends BaseController<IPost> {
 
     // Create new object
     async post (req: Request, res: Response) {
-        const userId = req['user']._id;  // Get the user ID from the request object
+        const userId = req['user']._id;
         const message = req.body;
         message.owner = userId
         super.post(req, res);
