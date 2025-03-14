@@ -47,6 +47,7 @@ async function askChatGPT(req: Request, res: Response) {
       if (error instanceof RateLimitError) {
         res.status(429).json({ error: 'Rate limit exceeded. Please wait and try again later.' });
       } else {
+          console.log(error);
           // If it's another error, handle it normally
           res.status(500).json({ error: 'An error occurred while processing your request.' });
       }

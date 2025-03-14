@@ -10,8 +10,7 @@ interface GoogleUser {
   email: string;
   password: string;
   username: string;
-//   TODO: when we have a profile picture
-//   picture: string;
+  imageUrl: string;
 }
 
 // Verify Google token and get user info
@@ -29,13 +28,12 @@ export const verifyGoogleToken = async (token: string): Promise<GoogleUser> => {
         email: payload.email || '',
         password: payload.sub || '',
         username: payload.name || '',
-        // TODO: when we have a profile picture
-        // picture: payload.picture || '',
+        imageUrl: payload.picture || '',
     };
 };
 
-export async function register(data: { email: string; password: string; username: string }) {
-    const { email, password, username } = data;
+export async function register(data: { email: string; password: string; username: string, imageUrl: string }) {
+    const { email, password, username, imageUrl } = data;
 
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
@@ -45,10 +43,10 @@ export async function register(data: { email: string; password: string; username
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Save the new user
-    const newUser = new User({ email, password: hashedPassword, username });
+    const newUser = new User({ email, password: hashedPassword, username, imageUrl });
     await newUser.save();
 
-    return { id: newUser.id, email: newUser.email, username: newUser.username };
+    return { id: newUser.id, email: newUser.email, username: newUser.username, imageUrl: newUser.imageUrl };
 }
 
 export async function login(email: string, password: string) {

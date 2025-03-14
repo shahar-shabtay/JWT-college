@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
    },
    filename: function (req, file, cb) {
        const ext = file.originalname.split('.')
-           .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
+           .filter(Boolean)
            .slice(1)
            .join('.')
        cb(null, Date.now() + "." + ext)
@@ -19,6 +19,6 @@ const upload = multer({ storage: storage });
 
 router.post('/', upload.single("file"), function (req, res) {
    console.log("router.post(/file: " + base + req.file.path)
-   res.status(200).send({ url: base + req.file.path })
+   res.status(200).send({ imageUrl: base + req.file.path })
 });
 export = router;

@@ -10,7 +10,8 @@ let accessToken: string;
 const user = {
     email: "newuser@example.com",
     password: "securepassword",
-    username: "newuser123"
+    username: "newuser123",
+    imageUrl: "https://example.com/image"
 }
 
 beforeAll(async () => {
@@ -45,7 +46,8 @@ describe("Users tests", () => {
         const newUser = {
             email: "yuval@example.com",
             username: "yuval123",
-            password: "123456"
+            password: "123456",
+            imageUrl: "https://example.com/image"
         };
 
         const response = await request(testApp).post("/users").send(newUser).set("Authorization", `JWT ${accessToken}`);

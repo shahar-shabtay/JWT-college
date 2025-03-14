@@ -14,7 +14,7 @@ export class BaseController<T>{
             res.status(201).json(created);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: error.message }); // Handle server errors
+            res.status(500).json({ error: error.message });
         }
     }
 

@@ -7,6 +7,9 @@
         "test": "tsc && cross-env ENV_FILE=.env jest --detectOpenHandles --forceExit --coverage",
         "testPost": "tsc && cross-env ENV_FILE=.env jest --detectOpenHandles --forceExit ./tests/posts.test.ts",
         "testFile": "tsc && cross-env ENV_FILE=.env jest --detectOpenHandles --forceExit ./tests/file.test.ts",
+        "testChat": "tsc && cross-env ENV_FILE=.env jest --detectOpenHandles --forceExit ./tests/chat.test.ts",
+        "testAuth": "tsc && cross-env ENV_FILE=.env jest --detectOpenHandles --forceExit ./tests/auth.test.ts",
+        "testUser": "tsc && cross-env ENV_FILE=.env jest --detectOpenHandles --forceExit ./tests/users.test.ts",
         "dev": "nodemon app.js",
         "lint": "eslint . --ext .ts",
         "start": "tsc && cross-env ENV_FILE=.env node dist/src/server.js"
