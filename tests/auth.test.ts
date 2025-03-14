@@ -31,6 +31,7 @@ beforeAll(async () => {
     email: uniqueEmail,
     password: 'test123',
     username: 'test2user',
+    imageUrl: 'https://example.com/image'
   });
 
   // Check for errors and handle registration

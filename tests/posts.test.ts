@@ -8,7 +8,8 @@ import User, { IUser } from "../src/models/users";
 const user: IUser = {
     email: "newuser@example.com",
     username: "newuser123",
-    password: "securepassword"
+    password: "securepassword",
+    imageUrl: "https://example.com/image"
 }
 
 let testApp: Express;
