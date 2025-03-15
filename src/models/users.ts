@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema<IUser>(
         email: { type: String, required: true, unique: true },
         username: { type: String, required: true },
         password: { type: String, required: true },
-        imageUrl: { type: String, required: true }
+        imageUrl: { type: String, required: false }
     },
     { timestamps: true } // Automatically adds `createdAt` and `updatedAt` fields
 );
