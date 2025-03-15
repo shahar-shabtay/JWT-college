@@ -8,7 +8,8 @@ import User, { IUser } from "../src/models/users";
 const user: IUser = {
     email: "newuser@example.com",
     username: "newuser123",
-    password: "securepassword"
+    password: "securepassword",
+    imageUrl: "https://example.com/image"
 }
 
 let testApp: Express;
@@ -49,7 +50,8 @@ describe("Posts tests", () => {
         const newPost = {
             title: "My First Post",
             content: "This is the content of my first post.",
-            owner: "123"
+            owner: "123",
+            imageUrl: "https://example.com/image.jpg"
         };
 
         const response = (await request(testApp).post("/posts").set("Authorization", `JWT ${accessToken}`).send(newPost));
