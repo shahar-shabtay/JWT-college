@@ -24,7 +24,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Allow CORS from our client
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: [
+      'http://localhost:5173',  // For local development
+      'https://node71.cs.colman.ac.il',  // For production
+      'https://193.106.55.231',
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'], 
     credentials: true,
@@ -33,20 +37,20 @@ app.use(
 
 // Routes
 import postRoutes from './routes/posts';
-app.use('/posts', postRoutes);
+app.use('/api/posts', postRoutes);
 
 import commentRoutes from './routes/comments';
-app.use('/comments', commentRoutes);
+app.use('/api/comments', commentRoutes);
 
 import userRoutes from './routes/users';
-app.use('/users', userRoutes);
+app.use('/api/users', userRoutes);
 
 import chatRoutes from './routes/chat';
-app.use('/chat', chatRoutes);
+app.use('/api/chat', chatRoutes);
 
 import authRoutes from './routes/auth'
 app.use(express.json());
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 
 import likeRoute from './routes/likes'
 app.use('/likes', likeRoute);

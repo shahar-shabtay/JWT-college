@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ### Get all posts
-GET http://localhost:3000/posts
+GET https://10.10.246.71:3000/api/posts
 
 ### Get post by ID
 GET http://localhost:3000/posts/676983c5ac27c9ccac30b6b6
@@ -97,7 +97,8 @@ Content-Type: application/json
 }
 
 ### Check registration
-POST http://localhost:3000/auth/register
+POST http://node71.cs.colman.ac.il/api/auth/register
+# POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
@@ -107,7 +108,7 @@ Content-Type: application/json
 }
 
 ### Login with new user
-POST http://localhost:3000/auth/login
+POST http://node71.cs.colman.ac.il/api/auth/login
 Content-Type: application/json
 
 {
