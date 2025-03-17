@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import  postController , { getPostsByOwner , getAllWithPaging } from '../controllers/posts';
+import  postController , { getPostsByOwner } from '../controllers/posts';
 import authMiddleware from '../common/auth_middleware';
 
 // Add a new post
@@ -8,9 +8,6 @@ router.post('/',authMiddleware, postController.post.bind(postController));
 
 // Get all posts
 router.get('/', postController.getAll.bind(postController));
-
-// Get all posts with paging
-router.get('/paging', getAllWithPaging);
 
 // Get a post by id
 router.get("/:id", postController.get.bind(postController));
