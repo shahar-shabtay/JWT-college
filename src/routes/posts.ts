@@ -1,7 +1,10 @@
 import express from 'express';
 const router = express.Router();
-import  postController , { getPostsByOwner } from '../controllers/posts';
+import  postController , { getPostsByOwner, getAllWithPaging } from '../controllers/posts';
 import authMiddleware from '../common/auth_middleware';
+
+// Get all posts with paging
+router.get('/paging', getAllWithPaging);
 
 // Add a new post
 router.post('/',authMiddleware, postController.post.bind(postController));
