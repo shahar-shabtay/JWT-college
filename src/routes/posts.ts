@@ -3,6 +3,9 @@ const router = express.Router();
 import  postController , { getPostsByOwner, getAllWithPaging } from '../controllers/posts';
 import authMiddleware from '../common/auth_middleware';
 
+// Get all posts with paging
+router.get('/paging', getAllWithPaging);
+
 // Add a new post
 router.post('/',authMiddleware, postController.post.bind(postController));
 
@@ -20,8 +23,6 @@ router.put('/:id', authMiddleware, postController.update.bind(postController));
 
 // Delete post by ID
 router.delete("/:id", authMiddleware, postController.delete.bind(postController));
-
-router.get('/paging', getAllWithPaging);
 
 /**
 * @swagger
