@@ -20,10 +20,11 @@ class postController extends BaseController<IPost> {
 
 const getPostsByOwner = async (req: Request, res: Response) => {
     try {
-        const ownerId = req.query.owner;  // Get the owner ID from query params
+        const ownerId = req.query.owner;
 
+        // Return an error if owner ID is missing
         if (!ownerId) {
-            return res.status(400).json({ error: 'Owner ID is required' });  // Return an error if owner ID is missing
+            return res.status(400).json({ error: 'Owner ID is required' });
         }
 
         // Find posts by owner ID and populate owner details
@@ -38,11 +39,11 @@ const getPostsByOwner = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Server error' });  // Handle server errors
+        res.status(500).json({ error: 'Server error' });
     }
 };
 
-// Get All Posts with Pagination
+// Get All Posts with Paging
 const getAllWithPaging = async (req: Request, res: Response) => {
     try {
         // Ensure page and limit are valid numbers
