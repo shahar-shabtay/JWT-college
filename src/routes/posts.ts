@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import  postController , { getPostsByOwner } from '../controllers/posts';
+import  postController , { getPostsByOwner, getAllWithPaging } from '../controllers/posts';
 import authMiddleware from '../common/auth_middleware';
 
 // Add a new post
@@ -20,6 +20,8 @@ router.put('/:id', authMiddleware, postController.update.bind(postController));
 
 // Delete post by ID
 router.delete("/:id", authMiddleware, postController.delete.bind(postController));
+
+router.get('/paging', getAllWithPaging);
 
 /**
 * @swagger

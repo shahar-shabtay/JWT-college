@@ -42,5 +42,37 @@ const getPostsByOwner = async (req: Request, res: Response) => {
     }
 };
 
+// Get All Posts with Pagination
+const getAllWithPaging = async (req: Request, res: Response) => {
+    try {
+        // Ensure page and limit are valid numbers
+        const pageNum = Number(req.query.page) || 1;
+        const limitNum = Number(req.query.limit) || 10;
+
+        if (pageNum < 1 || limitNum < 1) {
+            return res.status(400).json({ message: "Page and limit must be positive numbers." });
+        }
+
+        const posts = await Post
+            .find()
+            .skip((pageNum - 1) * limitNum)
+            .limit(limitNum);
+
+        const totalCount = await Post.countDocuments();
+
+        res.json({
+            data: posts,
+            totalPages: Math.ceil(totalCount / limitNum),
+            currentPage: pageNum,
+            totalItems: totalCount,
+        });
+    } catch (error) {
+        console.error("Error fetching posts:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+}  
+
+
+
 export default new postController(Post);
-export { getPostsByOwner };
+export { getPostsByOwner, getAllWithPaging};
