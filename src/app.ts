@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import path from 'path';
+import swaggerUi from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
 
 const envFile = process.env.ENV_FILE || '.env';
 console.log(`Using environment file: ${envFile}`);
@@ -11,6 +13,23 @@ dotenv.config({ path: envFile });
 
 // Create the Express app
 const app = express();
+
+// Swagger setup
+const swagger_options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Shahar&Yuval web dev (:",
+      version: "1.0.0",
+      description: "REST server including authentication using JWT and Refresh token",
+    },
+    servers: [{ url: "https://node71.cs.colman.ac.il" }],
+  },
+  apis: ["./src/routes/*.ts"], 
+};
+
+const specs = swaggerJsDoc(swagger_options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // MongoDB connection
 const mongoUrl: string = process.env.MONGO_URL as string;
