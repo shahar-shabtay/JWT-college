@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { askChatGPT } from '../controllers/chatController';
+import authMiddleware from '../common/auth_middleware';
 
 /**
 * @swagger
@@ -56,6 +57,6 @@ const router = Router();
  */
 
 // Ask a new question to chatGPT
-router.post('/', askChatGPT);
+router.post('/', authMiddleware, askChatGPT);
 
 export = router;
